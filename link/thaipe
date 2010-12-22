@@ -1,0 +1,2 @@
+#!/bin/sh
+python /opt/thaipe/thaipe.pyc $1

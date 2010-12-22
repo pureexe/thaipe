@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+  <title>;แนะนำ THAI PE</title>
+
+</head><body>
+<div name="indexx">&nbsp;&nbsp; <br>
+</div>
+<a  name="head1"></a><h2><span style="font-family: monospace;">โปรแกรมนี้ คือ
+Thai's HTM Application Idea Programming Environtment (THAI PE)</span></h2>
+
+<p><span style="font-family: monospace; font-weight: bold;">&nbsp;&nbsp;&nbsp;
+Thai's HTM Application Idea Programming Environtment (THAI PE) </span>เป็น
+browser กึ่ง interpreter สำหรับโปรแกรม ที่เขียนผสมกันระหว่างภาษา HTML, Javascript,
+Python เป็นต้น โดยใช้นามสกุลไฟล์ สำหรับแพลตฟอร์ม ที่อำนวยให้ท่านเขียนโปรแกรมในรูปแบบ 
+HTML ผสม JavaScript ว่า .THAIPE (HTM Application).<br>
+&nbsp;&nbsp;&nbsp; ในอนาคต มีแนวทางจะจัดทำ Thai's HTM Application Idea Python 
+Clonning Programming Environtment (THAIThon CPE) โดยเป็นแพลตฟอร์ม 
+ี่อำนวยให้ท่านเขียนโปรแกรมในรูปแบบ HTML ผสม Clonning Python JavaScript.<br>
+&nbsp;&nbsp;&nbsp; THAIPE และ THAIThon CPE เหมาะสำหรับโปรแกรมขนาดเล็ก ที่ต้องการ
+UI เขียนง่าย (แบบภาษา html) แต่ใช้ความสามารถพิเศษของ Python ได้ไม่จำกัด
+เช่น เขียนไฟล์, ติดต่อ Database, รันโปรแกรม เป็นต้น.<br>
+</p>
+
+<a  name="head2"></a><h2>เหตุผลที่ควรใช้ THAIPE เขียนโปรแกรม<br>
+</h2>
+
+<ul>
+
+  <li>HTAs ใช้ได้เฉพาะบน Windows เท่านั้น แต่ THAIPE
+ใช้ได้เกือบทุกระบบปฏิบัติการ เพราะอยู่บนสภาพแวดล้อมของ Python.<br>
+  </li>
+  <li>UI แบบ HTML นั้นมีข้อดีหลายประการ เช่น...</li>
+  <ul>
+    <li>โปรแกรมเมอร์ส่วนใหญ่จะคุ้นเคยดี.<br>
+    </li>
+    <li>เขียนง่าย มีโปรแกรมช่วยหลากหลาย.</li>
+    <li>มี Library ช่วยในการออกแบบมากมาย เช่น jQuery เป็นต้น (jQuery
+เป็น default library ของ THAIPE สามารถใช้งานผ่านตัวแปร&nbsp; $ และ
+jQuery ได้ทันที).</li>
+    <li>ตัวอย่าง มีทุก page ใน internet.<br>
+    </li>
+  </ul>
+  <li>python เป็นภาษาโปรแกรมแบบ open source จึงมี library ดีๆ
+ตัวอย่างเด็ดๆ มากมาย.</li>
+  <li>browser ปกติ ไม่สามารถทำงานบางอย่างที่ python ทำได้ (เช่น
+เขียนไฟล์, ติดต่อ กatabase, รันโปรแกรม เป็นต้น) หรือ แม้ทำได้
+ก็ต้องคอยกดยินยอมของระบบรักษาความปลอดภัยใน Browser <span style="font-weight: bold; font-style: italic;">แต่ THAIPE
+หาได้เป็นเช่นนั้นไม่</span>.</li>
+  <li>Environtment ของ THAIPE นั้น มีความสามารถของ Browser
+และโปรแกรมทั่วไปอยู่ในตัว ไม่ต้องเขียนใหม่ หรือ หา library เพิ่มเติมอีก
+(เช่น คัดลอก ตัด วาง ซูม ไปหน้า ย้อนหลัง ปริ้น เป็นต้น).</li>
+  <li>มี shotcut สำหรับความสามารถบางอย่าง เช่น การคัดลอก ตัด วาง
+เป็นต้น ในตัว เช่นกัน.</li>
+  <li>ฯลฯ</li>
+</ul>
+
+<a  name="head3"></a><h2>สำหรับนักพัฒนา</h2>
+
+<ul>
+
+  <li> ใช้ py(PythonCodeString) สำหรับสั่งงานเป็นภาษา python. <br>
+  </li>
+</ul>
+
+<ul>
+
+  <ul>
+    <li>py('print 1') <br>
+    </li>
+    <li>สั่งให้แสดงเลข 1 บน Command Prompt ของ THAIPE.</li>
+  </ul>
+</ul>
+
+<ul>
+
+  <li>การเรียกใช้ตัวแปรใน python หรือประกาศตัวแปร ต้องใช้
+self.&lt;ชื่อตัวแปร&gt; นำเสมอ.</li>
+  <ul>
+    <li>py('self.text=file("test.html").read()') // สั่งให้ตัวแปร
+self.file ในไพธอน รับตัวหนังสือใน file ชื่อ test.html.</li>
+  </ul>
+  <li>การรับค่าคืนจากตัวแปรในไพธอน ใช้ฟังก์ชั้น pyReturn(varName)
+คืนค่าตัวแปรชื่อนั้นๆ กลับ.</li>
+  <ul>
+    <li>text=pyReturn("self.text") <br>
+    </li>
+    <li>text จะได้รับค่าทั้งหมดจาก self.text.<br>
+    </li>
+  </ul>
+  <li>ใช้ py(js'varName1,...,varNameN') เพื่อส่งตัวแปร varName[s]
+ที่มีอยู่ในแบบ python มาเป็นตัวแปรชื่อเดียวกันใน Browser.</li>
+  <ul>
+    <li>py('self.myString="THAIPE Prgramming is Very Easy"'); pyVar(
+"myString") <br>
+    </li>
+    <li>myString ใน Browser จะมีค่า เป็น "THAIPE Prgramming is Very Easy"</li>
+  </ul>
+</ul>
+
+<ul>
+
+  <li>ตัวอย่าง ฟังก์ชั่นเลียนแบบ open() วิธีสร้าง Object ใหม่
+เพื่อติดต่อกับ Object ของ Python.</li>
+</ul>
+
+<div style="margin-left: 40px;">function file () {&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;"><br>
+</span>&nbsp;&nbsp;&nbsp; // สำคัญมาก ต้องประกาศทุกครั้ง เพราะจะเป็น
+index ของ list ที่เก็บตัวแปรฝั่งไพธอนใช้ติดต่อตลอด.<br>
+<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp; this.id=_newPyObj();</span>&nbsp;&nbsp;&nbsp;
+<br>
+&nbsp;&nbsp;&nbsp; self.args=arguments;<br>
+&nbsp;&nbsp;&nbsp; this.fn=self.args[0];<br>
+&nbsp;&nbsp;&nbsp; this.mod=self.args[1];<br>
+&nbsp;&nbsp;&nbsp; if (typeof this.mod=="undefined")<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; this.mod="r";<br>
+<br>
+&nbsp;&nbsp;&nbsp; py("self.objList["+this.id+"] =&nbsp;
+open('"+this.fn+"', '"+this.mod+"')");<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; this.read =function() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+py("self._out=self.objList["+this.id+"].read()");<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return pyReturn("_out");<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; this.write =function(t) {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+py("self._out=self.objList["+this.id+"].write(str("+t+"))");<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; this.close =function() {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+print.py("self.objList["+this.id+"]");<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+py("self._out=self.objList["+this.id+"].close()");<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+</div>
+
+<a  name="head4"></a><h2>สอบถามเพิ่มเติม แนะนำ ติชม</h2>
+
+<ul>
+
+  <li>มีข้อสงสัย สอบถามที่ : <a href="http://forum.ubuntuclub.com/forum/board,8.0/wap2.html" target="_blank">กระดานนักพัฒนาของอูบุนตูคลับ</a> ในกระทู้ :&nbsp; เขียนโปรแกรมแบบ THAIPE เชิญร่วมกันพัฒนา.<span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Norasi; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span class="Apple-style-span" style="color: rgb(68, 68, 68); font-family: Verdana,Helvetica,sans-serif; font-size: 15px;"></span></span><meta http-equiv="content-type" content="text/html; charset=utf-8"><span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Norasi; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span class="Apple-style-span" style="color: rgb(68, 68, 68); font-family: Verdana,Helvetica,sans-serif; font-size: 15px;"></span></span><a href="http://forum.ubuntuclub.com/forum/topic,18556.0.html"><span style="font-weight: bold;"></span></a></li>
+  <li><span style="font-weight: bold;">ถ้ามีฟังก์ชั่นเขียนเอง
+แนะนำเข้ามาที่กระทู้ดังกล่าวได้เช่นกัน (ต้องการมาก เช่น object เลียนแบบ
+module csv, os, sys เป็นต้น). </span><br>
+  </li>
+</ul>
+
+<br>
+
+<span style="font-weight: bold; font-style: italic;">หมายเหตุ :<span style="font-weight: bold;">ยังส่งลำดับการทำงานขึ้น command อยู่
+เพื่อสะดวกในการพัฒนาโปรแกรม</span></span><span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Norasi; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span class="Apple-style-span" style="font-family: monospace;"><span class="webkit-html-tag"></span> </span></span>
+</body></html>

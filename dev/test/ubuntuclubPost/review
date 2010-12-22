@@ -1,0 +1,90 @@
+Can you feel windows coming down? 
+Comes down harder, harder 
+Comes down faster, faster 
+Linux's burning HOT! 
+
+Linux Ubuntu will consume all of the Windows (x4) 
+
+Do you see trojan in windows? 
+What antivirus can't be denied 
+I can take you to a place where the worms were died 
+Ohowowo, Take Ubuntu
+
+You could say 
+It's complicated
+But my system crashed when virus rises 
+I'm all consumed by passion 
+
+I need linux linux linux 
+I'm require up in here 
+This drought's 'bout to disappear 
+linux linux linux
+I'm taking up in here 
+Ready on U-buntuclub 
+
+Linux Ubuntu will consume all of the Windows (x4) 
+
+Don't worry as far as use -
+Ubuntu linux easy to try 
+You can get it free around the world
+This OS is Opensource 
+
+You could say 
+It's complicated
+But my system crashed when virus rises 
+I'm all consumed by passion 
+
+I need linux linux linux 
+I'm require up in here 
+This drought's 'bout to disappear 
+linux linux linux
+I'm taking up in here 
+Ready on U-buntuclub 
+
+Linux Ubuntu will consume all of the Windows (x4) 
+
+Can you feel windows coming down? 
+Comes down harder, harder 
+Comes down faster, faster 
+Linux's burning HOT! 
+
+I need linux linux linux 
+I'm require up in here 
+This drought's 'bout to disappear 
+linux linux linux
+I'm taking up in here 
+Ready on U-buntuclub 
+C'mon and let Linux
+
+I need linux linux linux 
+I'm require up in here 
+This drought's 'bout to disappear 
+linux linux linux
+I'm taking up in here 
+Ready on U-buntuclub 
+And let Linux 
+
+Linux Ubuntu will consume all of the Windows (x4) 
+
+Can you feel windows coming down? 
+Comes down harder, harder 
+Comes down faster, faster 
+Linux's burning HOT! 
+
+
+
+วิธีการเขียน javascript และ python ให้เรียนได้ที่ลิงก์ด้านบน ครับ, ผมจะมายกตัวอย่าง (ย่อๆก่อน เพราะจะไปต่างจังหวัด) เฉพาะส่วนที่จะนำ HtmAE ไปใช้ได้ ครับ.
+
+สมมุติ ผมต้องการชื่อไฟล์ทั้งหมดบน /home มาใช้ใน Browser ผมจะโค้ดว่า .-
+
+py('
+	import glob;
+	self.myList=glob.glob("~/*");
+	for i in range(0,len(self.myList)):
+		js("myList["+i+"] = "+self.myList[i]);
+');
+
+alert(myList);
+
+
+

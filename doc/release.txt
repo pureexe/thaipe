@@ -1,0 +1,18 @@
+thaipe-0.1a2.tar.bz - 21/12/2553
+-Change project name to Thai HTML Application Idia Programming Environment. 
+-Added almost all modules of python to Javascript Object. 
+(in the future, if anyone warn about RAM used, 
+I will take them to be importing module).
+-Use double hyphen ("--") to set a document title.  
+For Example : document.title="--Your Title";
+-Build script.
+-Install script.
+-Release Note.
+-Thaipe icon.
+-Desktop shotcut.
+-THAI PE Shell v0.1.0.
+-/usr/bin/thaipe file for execute thaipe command from anywhere.
+-and more.
+
+HtmAE_v0.1.0alpha.tar.gz - 19/11/2553
+-First alpha release at http://forum.ubuntuclub.com/forum/topic,18556.0.html

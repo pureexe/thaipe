@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="th"><head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>--THAI PE Shell-- -</title>
+  <meta content="อุ๊บะอันตะอู้" name="author">
+  <meta content="Shell for run thai script" name="description">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script>
+function run(thaiCode) {
+	f=new fopen("./~tmp.htma", "w");
+	f.write("<script\n>"+thaiCode+"</script\n>");
+	f.close();
+	cmd=new commands;
+	print("Shell's Return : "+cmd.getoutput('thaipe $PWD/~tmp.htma'));
+}
+
+function handleEvent(keyEvent) {
+	if (keyEvent.keyCode==118)
+		exec();
+}
+_num=0;
+function exec() {
+	try{
+		var obj=document.createElement('textarea');
+		if (_num==0) {
+			$('#resultScreen')[0].value=" -*- THAI PE Shell 0.1 -*- :";
+			_num++;
+		}
+		obj.value=$('#resultScreen')[0].value+"\n>>>"+eval( $('#shell')[0].value);	
+		$("#resultPlace")[0].removeChild($('#resultScreen')[0]);
+		obj.setAttribute("id", "resultScreen" );
+		obj.rows=10;
+		obj.cols=50;
+		$("#resultPlace")[0].appendChild(obj);
+		obj.scrollTop = obj.scrollHeight; 
+
+		}
+	catch(e){
+		print('JavaScript Error :     '+e);
+		}	
+}
+</script>
+</head>
+<body>
+<span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Norasi; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span class="Apple-style-span" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-size: 13px;"><br class="Apple-interchange-newline"><table class="tborder" id="post302356552" style="border: 1px solid rgb(11, 25, 140); background-color: rgb(209, 209, 225); color: rgb(0, 0, 0); width: 50%; text-align: left; margin-left: auto; margin-right: auto; height: 50%;" border="0" cellpadding="6" cellspacing="1"><tbody><tr><td class="thead" style="padding: 4px; font-family: tahoma,verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: bold; font-size: 11px; line-height: normal; font-size-adjust: none; font-stretch: normal; background-image: url(http://solaris.unix.com/images/gradients/gradient_thead.gif); background-color: rgb(92, 112, 153); color: rgb(255, 255, 255); background-position: 0% 50%; height: 95%; width: 95%;"><div class="normal" style="font-weight: normal; float: right;">&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span> <br>
+</div><div class="normal" style="font-weight: normal;">
+      <div style="text-align: center;"><span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Norasi; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span class="Apple-style-span" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-size: 13px;"><span style="font-weight: bold;">THAI PE Shell</span></span></span></div>
+</div></td></tr><tr><td class="alt2" style="padding: 0px; font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(225, 228, 242); color: rgb(0, 0, 0);"><table style="width: 100%; height: 100%;" border="0" cellpadding="0" cellspacing="6"><tbody><tr><td style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal;" nowrap="nowrap"><br>
+</td><td  id="resultPlace" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal; height: 100%; width: 100%; background-color: rgb(3, 0, 3); text-align: left; vertical-align: top;color:rgb(200,200,200);">
+
+<textarea wrap="soft" id="resultScreen" rows=10 cols=50></textarea>
+
+</td><td style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal;" nowrap="nowrap" valign="top"><div class="smallfont" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 11px; line-height: normal; font-size-adjust: none; font-stretch: normal;"></div><div class="smallfont" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 11px; line-height: normal; font-size-adjust: none; font-stretch: normal;"><div style="text-align: center;"><span style="font-weight: bold;">THAI PE Shell</span><br>
+</div><div><span style="font-weight: bold;">Execute :</span>- Click to run your script<br>
+</div><div><span style="font-weight: bold;">Run in new window :</span><br>
+</div><div>- Click to execute in new window<br>
+</div><div><span style="font-style: italic; font-weight: bold;">*type your script and click it!!!*</span><br>
+</div></div></td></tr></tbody></table>
+
+<div style="text-align: center;">
+<button 
+	onclick="exec()" 
+	id="exec"
+>Execute</button> 
+| 
+
+<button 
+	id="run" 
+	onclick="try{run($('#shell')[0].value);}catch(e){alert('Error :\n    '+e);}" 
+>Run in new window</button></div>
+
+</td></tr><tr><td class="alt1" id="td_post_302356552" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(245, 245, 255); color: rgb(0, 0, 0); height: 95%; width: 95%;"><span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Norasi; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span class="Apple-style-span" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-size: 13px;">
+<textarea wrap="soft" id="shell" rows=10 cols=75></textarea></span></span></td></tr></tbody></table><div id="post_thanks_box_302356552"></div></span></span><br class="Apple-interchange-newline">
+</body></html>

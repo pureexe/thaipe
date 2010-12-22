@@ -1,0 +1,4 @@
+#!/bin/sh
+
+gksudo ln -s $PWD/thaipe /usr/bin/thaipe
+gksudo ln -s $PWD/thaipe.desktop /usr/share/applications

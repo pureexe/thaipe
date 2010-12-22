@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=THAIPE
+Comment=Thai's HTML Application Idia Programming Environment
+Exec=/opt/thaipe/thaipe.pyc %u
+Icon=/usr/share/pixmaps/thaipe.xpm
+Terminal=false
+Type=Application
+Categories=Application;Development;
+StartupNotify=true

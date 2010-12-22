@@ -1,0 +1,14 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+document.write(getData("firstPage.html"));
+	index="<a name=top></a><h1>สารบัญหัวเรื่อง .-</h1>";
+	for (i=0;i<$("h2").size();i++){
+		index +="<li><a href='./firstPage.htma#head"+(i+1)+"'>"+$("h2")[i].innerHTML+"</a></li>";
+		$("h2")[i].innerHTML=$("h2")[i].innerHTML+" [<a  href=./firstPage.htma#top>^</a>]";
+	}
+	target=$("div").get(0);
+	target.innerHTML="<ul>"+index+"</ul>";
+	document.title="-- แนะนำ THAI PE -- -";
+</script>
+
+
