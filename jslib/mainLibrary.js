@@ -22,6 +22,10 @@ function require(){
 	   }
 	}
 	document.title = "!!import "+results.join(", ")
+	// initiate all imported stuff
+	results.forEach(function(x){
+		window[x] = window[x]();
+	});
 	return true;
 }
 
