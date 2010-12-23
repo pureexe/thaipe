@@ -1,8 +1,11 @@
+# -*- encoding: utf-8
 import os,sys, re, pprint, mylib
 import types
 from string import Template
 
 _dev=False
+mods=mylib.db(os.path.dirname(__file__)+"/mods.db").load()
+modules=mods
 
 def classMaker (mods):
     jsLib=""
@@ -117,10 +120,9 @@ $insteadModName=function() {
 
     return jsLib
 
-mods=mylib.db("mods.db").load()
-modules=mods
-mylib.write("func.js", classMaker(mods))#""".replace("\t", " ").replace("\t", " ").replace("\n"," ")"""
-mylib.write("func.html", "<script>\n"+classMaker(mods)+"\n</script>") #ไว้ใช้ firefox ตรวจความถูกต้อง
+if __name__ == "__main__":
+    mylib.write("func.js", classMaker(mods))#""".replace("\t", " ").replace("\t", " ").replace("\n"," ")"""
+    mylib.write("func.html", "<script>\n"+classMaker(mods)+"\n</script>") #ไว้ใช้ firefox ตรวจความถูกต้อง
 
 
 

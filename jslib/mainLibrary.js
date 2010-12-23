@@ -8,9 +8,25 @@ function py (pyCode) {
 	document.title = "null";
 	document.title = pyCode;
 }
+function require(){
+	if(arguments.length < 1) return false;
+	results = [];
+	for (var i = 0; i < arguments.length; i++) {  
+	   results.push(arguments[i]);
+	   if(arguments[i].indexOf(".") != -1){
+	      mods = arguments[i].split(".");
+	      mods.pop();
+	      mods.forEach(function(x){
+		window[x] = new Object(x);
+	      });
+	   }
+	}
+	document.title = "!!import "+results.join(", ")
+	return true;
+}
 
 function print (t) {
-py('print """'+t+'"""');
+  py('print """'+t+'"""');
 }
 
 /*แปลง ตัวแปรไพธอนเป็น js*/

@@ -35,6 +35,7 @@ from pylib.inspector import Inspector
 #my import
 import os, re, glob
 import traceback #to show error
+from jslib import makeJsLib
 
 ABOUT_PAGE = """
 <html><head><title>PyWebKitGtk - About</title></head><body>
@@ -232,7 +233,6 @@ class ContentPane (gtk.Notebook):
         #คำสั่งสำคัญๆ ที่จะรวมกับสคริปปกติไม่ได้ เพราะใช้บ่อย เสียแล้วจะใช้ไม่ได้
         self.web_view.execute_script(open(_PWD+'/jslib/jquery.js').read())
         self.web_view.execute_script(open(_PWD+'/jslib/mainLibrary.js').read())
-        self.web_view.execute_script(open(_PWD+'/jslib/func.js').read())
 
 
         #ถ้ายังไม่เรียกใช้ สคริปที่เสีย หรือหลัังจากสคริปที่เสีย ก็ใช้ได้,
@@ -267,7 +267,10 @@ class ContentPane (gtk.Notebook):
         webview=self.web_view# สำหนับตอนรัน _local เพราะไม่เห็น self
         self.emit("focus-view-title-changed", frame, title)
 
-        if title != 'null' and title[0:2]!="--":
+	if title.startswith("!!import "):
+	  importName = (re.sub("^!!import ", "", title)).split(",")
+	  self.js(makeJsLib.classMaker(importName))
+        elif title != 'null' and title[0:2]!="--" and not title.startswith("!!"):
             os.chdir(os.path.dirname(re.sub("/*/", "/", self.uri.replace("file:","").replace("http:", ""))))
             try :
                 title=title.replace("_NEWLINE","\n")
@@ -277,8 +280,8 @@ class ContentPane (gtk.Notebook):
             except  Exception, e:
               self._showError()
             os.chdir(_PWD)
-        if title[0]=="--":
-            self.js("document.title='"+title+"'")
+        elif title[0]=="--":
+            self.js("document.title='"+re.sub("^-- ", "", title).replace("'", r"\\'")+"'")
               
     def js (self, javascript_code) :
         if _dev :
@@ -443,12 +446,14 @@ class WebBrowser(gtk.Window):
 
         self.show_all()
         
-        try :
-            url="file:///"+sys.argv[1]
-        except:
-            #url="file:///"+os.getcwdu()+"/test.htma"
-            url="file:///"+sys.path[0]+"/example/firstPage.htma"
+        try:
+	  urlToOpen = sys.argv[1]
+	  # check for abs path
+	  urlToOpen = os.path.abspath(urlToOpen)
+	except IndexError:
+	  urlToOpen = sys.path[0]+"/example/firstPage.htma"
         
+        url="file:///"+urlToOpen
         content_tabs.new_tab(url)
         
 

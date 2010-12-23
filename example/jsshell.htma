@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+body{
+  padding:0;margin:0;
+}
+pre{
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+  -webkit-box-sizing: border-box;
+  margin-bottom: 2em;
+}
+footer{
+  position: fixed;
+  bottom: 0px; left: 0px;
+  width: 100%;
+}
+#input{
+  width: 100%;
+  -webkit-box-sizing: border-box;
+}
+  </style>
+  <script>
+function print(x, output){
+  if((x == "" && typeof x != "boolean") || typeof x == "undefined" || typeof x == "null"){
+    if(typeof x == "string") x = '""';
+    else x = typeof x;
+  }
+  if(typeof x != "string"){
+    x = x.toString();
+  }
+  dd=$("<div />").text(x).appendTo("pre");
+  if(output === true) dd.html("<b>&gt;&gt;&gt;</b> "+dd.text());
+  //$(document).animate({scrollTop: 100000000000}, 500);
+  $(document).scrollTop(100000000000);
+  return dd;
+}
+function clear(){
+  $("pre").children().remove();
+  return null;
+}
+$(function(){
+  $("#input").keydown(function(e){
+    if(e.which == 13){
+      print($(this).val());
+      try{
+	code = $(this).val();
+	if(code.match("return ")){
+	  print(new Function($(this).val())(), true);
+	}else{
+	  print(eval($(this).val()), true);
+	}
+      }catch(e){
+	print(e, true);
+      }
+      $(this).val("");
+    }
+  }).get(0).focus();
+});
+  </script>
+</head>
+<body>
+<pre>
+<b>Welcome to JSShell</b>
+</pre>
+<footer>
+  <input type="text" id="input" />
+</footer>
+</body>
+</html>
