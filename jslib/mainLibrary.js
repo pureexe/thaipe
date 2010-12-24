@@ -64,7 +64,7 @@ function pyVar (/*"pyVarName"[0],...[n]*/ ) {
 function  pyReturn (varName) { //varName=varToReturn - STRING TYPE
 	t=varName;
 	pyVar (t);
-	return eval(t);
+	return window[t];
 }
 
 

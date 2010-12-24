@@ -36,6 +36,10 @@ from pylib.inspector import Inspector
 import os, re, glob
 import traceback #to show error
 from jslib import makeJsLib
+try:
+    import json #python 2.6
+except ImportError:
+    import simplejson as json #pypi it
 
 ABOUT_PAGE = """
 <html><head><title>PyWebKitGtk - About</title></head><body>
@@ -290,8 +294,8 @@ class ContentPane (gtk.Notebook):
         self.web_view.execute_script(javascript_code)
 
     def pyVar(self, varName):
-        var=eval("str(self."+varName+")").replace("\n","\\n")
-        jsCode=varName+" = '"+var.replace('"','\\"').replace("'","\\'")+"';"
+        var=getattr(self, varName)
+        jsCode=varName+" = "+json.dumps(var)+";"
         self.js(jsCode)
         
 
