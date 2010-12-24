@@ -10,22 +10,38 @@ function py (pyCode) {
 }
 function require(){
 	if(arguments.length < 1) return false;
-	results = [];
-	for (var i = 0; i < arguments.length; i++) {  
-	   results.push(arguments[i]);
-	   if(arguments[i].indexOf(".") != -1){
-	      mods = arguments[i].split(".");
-	      mods.pop();
-	      mods.forEach(function(x){
-		window[x] = new Object(x);
-	      });
+	results = {python: [], javascript: []};
+	for (var i = 0; i < arguments.length; i++) {  // arguments have no forEach
+	   x = arguments[i];
+	   if(x.match(/\.js$/)){
+	      results.javascript.push(x);
+	   }else{
+	      results.python.push(x);
+	      if(x.indexOf(".") != -1){
+		  mods = x.split(".");
+		  mods.pop();
+		  mods.forEach(function(x){
+		    window[x] = new Object(x);
+		  });
+	      }
 	   }
 	}
-	document.title = "!!import "+results.join(", ")
-	// initiate all imported stuff
-	results.forEach(function(x){
-		window[x] = window[x]();
-	});
+	if(results.python.length > 0){
+	    // python imports
+	    document.title = "!!import "+results.python.join(", ")
+	    // initiate all imported stuff
+	    results.python.forEach(function(x){
+		    window[x] = new window[x];
+	    });
+	}
+	if(results.javascript.length > 0){
+	    results.javascript.forEach(function(x){
+		var script = document.createElement('script');
+		script.src = x;
+		script.type = 'text/javascript';
+		document.getElementsByTagName('head')[0].appendChild(script);
+	    });
+	}
 	return true;
 }
 
