@@ -31,7 +31,11 @@ function require(){
 	    document.title = "!!import "+results.python.join(", ")
 	    // initiate all imported stuff
 	    results.python.forEach(function(x){
-		    window[x] = new window[x];
+		    if(x.indexOf(".") == -1)
+			window[x] = new window[x];
+		    else
+			// hax!! any better way? I hate this
+			eval("window."+x+" = new window."+x);
 	    });
 	}
 	if(results.javascript.length > 0){
