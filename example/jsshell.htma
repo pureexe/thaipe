@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+<script src="../jslib/jquery.js"></script>
   <style>
 body{
   padding:0;margin:0;
@@ -23,6 +24,7 @@ footer{
 }
   </style>
   <script>
+ 
 function print(x, output){
   if((x == "" && typeof x != "boolean") || typeof x == "undefined" || typeof x == "null"){
     if(typeof x == "string") x = '""';

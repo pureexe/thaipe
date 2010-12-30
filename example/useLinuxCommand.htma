@@ -1,0 +1,38 @@
+<script>
+require("commands");
+a=commands;
+// "ls" linux's command
+ls=a.getoutput("ls -R")
+msg="Before Directory List is :\n\n "+ls
+alert(msg)
+
+// "mkdir" linux's command
+a.getoutput("mkdir test1")
+a.getoutput("mkdir test2")
+a.getoutput("mkdir test3")
+
+// see changing
+ls=a.getoutput("ls -R")
+msg="After Directory List is :\n\n "+ls
+alert(msg)
+
+// add text file in to ./test directory
+a.getoutput("echo 'More ways with THAI PE 1 !!!' > ./test1/my_new_text_file_1.txt")
+a.getoutput("echo 'More ways with THAI PE 3 !!!' > ./test2/my_new_text_file_2.txt")
+a.getoutput("echo 'More ways with THAI PE 3 !!!' > ./test3/my_new_text_file_3.txt")
+
+// see changing
+ls=a.getoutput("ls -R")
+msg="After Directory List is :\n\n "+ls
+alert(msg)
+
+// "rmdir" linux's command
+ls=a.getoutput("rm -r test1")
+ls=a.getoutput("rm -r test2")
+ls=a.getoutput("rm -r test3")
+
+// see changing
+ls=a.getoutput("ls -R")
+msg="In the end, directory List is :\n\n "+ls
+alert(msg)
+</script>

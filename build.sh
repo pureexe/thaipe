@@ -1,20 +1,19 @@
 #!/bin/sh
-pkgName="thaipe-0.1a2.tar.bz2"
+
+pkgName="thaipe-0.1b1.tar.bz2"
 des="./thaipe"
-rm -r $des 
 rm -r $pkgName
-mkdir  $des 
-python ./dev/compileFiles.py ./thaipe.py
-chmod 777 ./thaipe.pyc
-for dir in  pylib example doc link thaipe.py thaipe.pyc readme.txt
-do
-		cp -Rf "./$dir" "$des" 
-done
 
-mkdir $des/jslib
-for file in func.js jquery.js mainLibrary.js
-do 
-	cp -Rf "./jslib/$file" "$des/jslib"
-done
 
-tar cjfv $pkgName thaipe install.sh readme.txt
+	rm -r $des 
+	mkdir  $des 
+	#python ./pylib/compileFiles.py ./thaipe.py
+	#chmod 777 ./thaipe.pyc
+	chmod 777 ./thaipe.py
+	for dir in  pylib example doc link jslib thaipe.py readme.txt
+	do
+			cp -Rf "./$dir" "$des" 
+	done
+	tar cjfv $pkgName thaipe install.sh readme.txt
+
+	

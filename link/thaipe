@@ -1,2 +1,10 @@
 #!/bin/sh
-python /opt/thaipe/thaipe.pyc $1
+
+path="/opt/thaipe"
+thaipepy=$path"/thaipe.py"
+
+if [ ! -f $thaipepy"c" ] ; then
+    python $path"/pylib/compileFiles.py" $thaipepy
+fi
+
+python $thaipepy"c" $1

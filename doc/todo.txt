@@ -1,3 +1,80 @@
--Thaithon option for run Python Clonning Syntax JavaScript.
+TO DO IN : 0.2a1
+-Option of require and imports, require ("all from <module>") and/or imports ("all from <module>").
+-Will fix bug (Now, I don't have any idea about it) :
+	require("io")
+	#this line return python file type to javascript that is lazy return 
+	#I try to except it , convert to string, and show error to user 
+	#(see in ./thaipe.py -> thaipe -> self.pyVar)
+	f=io.open("test.txt","w") 
+	#This two lines will show "TypeError: Result of expression 'f.writelines' [undefined] is not a function."
+	f.writelines("x\n\y\nz")
+	f.close()
+-option (if can be):
+--Make tinymce work. 
+
+
+TO DO IN : 0.1stable
+-Get properties of python module, e.g. os.name 
+-Convert pickle to json -- willwill. 
+-Evalute query string to global variable for all event.
+-Double Click to run .htma file(s).
+-Clear value of self._strList, self._objList by check exist of javascript variable that refer to them.
+-Will fix bug, require of root-module and sub-module replacement :
+	require("os") 
+	myos=os		// other way to keep it
+	print(os.mkdir) // print os.mkdir js source
+	require("os.path")
+	myospath=os.path // other way to keep it
+	print(os.mkdir) // undefined
+	
+	
+
+
+
+After we begun THAIThon CPE Project, I will do...
+-Thaithon option for run Python Clonning Syntax JavaScript. 
+
+
+
+----------------------------------------RESLEASED----------------------------------------------------
+
+TO DO IN : 0.1b1
+-jsImport -- willwill.
+-Rightly add slash to string.
+-Eval query string to global variable.
+--Can Evalute when user open window and in new tab.
+--But can't evalute when user open link in current tab.
+-addModule.htma -- cancle. Add require() and imports() insteal.
+-Error clearly form.
+-Stable title, don't change title or change back title when execute script. 
+-jQuery not include in thaipe, but will be in library for require/imports.
+-Change many project's methods and propertys to simple read, indicative (makeJsLib -> modengine), crash protect(add underscore[_]), ฯลฯ.
 -More Demos.
--
+--thaipe-shell.htma upgrade.
+--jsshell.htma by willwill (manatsawin).
+--added other demoes, see in ./demo.
+-and more.
+
+TO DO IN : 0.1a2, 0.1a1
+-Don't have todo list of version 0.1a2, 0.1a1. Have only release notes.
+
+RELEASE NOTE, release note of version 0.1a2, 0.1a1 (insteal todo list).-
+
+thaipe-0.1a2.tar.bz - 21/12/2553
+-Change project name to Thai HTML Application Idia Programming Environment. 
+-Added almost all modules of python to Javascript Object. 
+(in the future, if anyone warn about RAM used, 
+I will take them to be importing module).
+-Use double hyphen ("--") to set a document title.  
+For Example : document.title="--Your Title";
+-Build script.
+-Install script.
+-Release Note.
+-Thaipe icon.
+-Desktop shotcut.
+-THAI PE Shell v0.1.0.
+-/usr/bin/thaipe file for execute thaipe command from anywhere.
+-and more.
+
+HtmAE_v0.1.0alpha.tar.gz - 19/11/2553
+-First alpha release at http://forum.ubuntuclub.com/forum/topic,18556.0.html
