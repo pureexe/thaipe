@@ -101,7 +101,13 @@ function require(){
 	return true;
 }
 
-imports = require
+function imports(){
+    argsToList(arguments).forEach(function(x){
+	x = x.split(/[ ]*,[ ]*/);
+	require.apply(this, x);
+    });
+    return true;
+}
 
 
 function _ERR(errObj)
