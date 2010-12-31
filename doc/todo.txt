@@ -19,13 +19,7 @@ TO DO IN : 0.1stable
 -Evalute query string to global variable for all event.
 -Double Click to run .htma file(s).
 -Clear value of self._strList, self._objList by check exist of javascript variable that refer to them.
--Will fix bug, require of root-module and sub-module replacement :
-	require("os") 
-	myos=os		// other way to keep it
-	print(os.mkdir) // print os.mkdir js source
-	require("os.path")
-	myospath=os.path // other way to keep it
-	print(os.mkdir) // undefined
+-Submodule require() overwrites supermodule (fixed)
 	
 	
 
