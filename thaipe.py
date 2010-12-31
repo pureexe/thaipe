@@ -31,28 +31,46 @@ import gtk
 import pango
 import webkit
 from pylib.inspector import Inspector
+from jslib import modengine
 
 #my import
-import os, re, glob
+import os, re, glob, urllib
 import traceback #to show error
-from jslib import makeJsLib
+
 try:
     import json #python 2.6
 except ImportError:
     import simplejson as json #pypi it
 
 ABOUT_PAGE = """
-<html><head><title>PyWebKitGtk - About</title></head><body>
-<h1>Welcome to <code>webbrowser.py</code></h1>
+<html><head><title>THAI Programming Environment - About</title></head><body>
+<h1>Welcome to <code>THAI Programming Environment (THAI PE)</code></h1>
 <p><a
-href="http://code.google.com/p/pywebkitgtk/">http://code.google.com/p/pywebkitgtk/</a><br/>
+href="http://code.google.com/p/thaipe/">http://code.google.com/p/thaipe/</a><br/>
 </p>
 </body></html>
 """
-objIdRange=-1
-_PWD=sys.path[0]
+
+_PROJECT_NANE="Thai's HTML Application Idea Programming Environment"
+_PROJECT_ABBR="thaipe"
+_PROJECT_VERSION="0"
+_PROJECT_SUBVERSION="1"
+_PROJECT_STATUS="beta"
+_PROJECT_BUILDING="1"
+
+_PROJECT_RELEASE_VERSION="*"*70+"\n\n"+ \
+_PROJECT_NANE+" ("+_PROJECT_ABBR+") ... \n\n \
+starting up... easier... develop.....\n\n"+ \
+"\nrelease version : "+_PROJECT_VERSION+ \
+"\nsubversion : "+_PROJECT_SUBVERSION+ \
+"\nstatus : "+_PROJECT_STATUS+ \
+"\nbuilding : "+_PROJECT_BUILDING+ \
+"\n\n\nstarted.\n\n"+ \
+"*"*70+"\n"
+
 _dev=False
 
+objIdRange=-1
 
 class BrowserPage(webkit.WebView):
 
@@ -151,7 +169,7 @@ def tab_label_style_set_cb (tab_label, style):
     metrics.get_descent()) + 8)
 
 
-class ContentPane (gtk.Notebook):
+class thaipe (gtk.Notebook):
 
     __gsignals__ = {
         "focus-view-title-changed": (gobject.SIGNAL_RUN_FIRST,
@@ -163,10 +181,19 @@ class ContentPane (gtk.Notebook):
         }
 
     def __init__ (self):
-        self.objList=[]
-        self._runTitle=False
-        self._preRunTitle=False
+        self._modengine=modengine
+        self._objList=[]
+        self._strList=[]
+        self._lastURL=""
+        self._lastTitle=""
+        self._lastSendExacProblem=""
+        self._lastExacModName=""
+        self._lastExacMtdName=""
+        self._lastExacArgs=""
+        self._out=""
+        self._dummy=""
         self._title=""
+        
         """initialize the content pane"""
         gtk.Notebook.__init__(self)
         self.props.scrollable = True
@@ -175,12 +202,16 @@ class ContentPane (gtk.Notebook):
 
         self.show_all()
         self._hovered_uri = None
-
+        
     def load (self, text):
         """load the given uri in the current web view"""
         child = self.get_nth_page(self.get_current_page())
         view = child.get_child()
-
+        view.load_uri(text)
+        if text != None :
+            self._lastURL=text
+        #self.web_view.execute_script(open(sys.path[0]+'/jslib/evalQueryString.js').read())
+        
     def new_tab_with_webview (self, webview):
         """creates a new tab with the given webview as its child"""
         self._construct_tab_view(webview)
@@ -188,19 +219,25 @@ class ContentPane (gtk.Notebook):
     def new_tab (self, url=None):
         """creates a new page in a new tab"""
         # create the tab content
+        if url!=None :
+            self._lastURL=url
         browser = BrowserPage()
         self._construct_tab_view(browser, url)
+        #self.web_view.execute_script(open(sys.path[0]+'/jslib/evalQueryString.js').read())
 
     def _construct_tab_view (self, web_view, url=None):
-        global _PWD
+        if url!=None :
+            self._lastURL=url
+        
         self.web_view=web_view
+        web_view.connect('resource-request-starting', self._resource_cb)
         web_view.connect("hovering-over-link", self._hovering_over_link_cb)
         web_view.connect("populate-popup", self._populate_page_popup_cb)
         web_view.connect("load-finished", self._view_load_finished_cb)
         web_view.connect("create-web-view", self._new_web_view_request_cb)
         web_view.connect("title-changed", self._title_changed_cb)
-        web_view.connect('document-load-finished',self.document_load_finished_cb)
-        web_view.connect('load-started', self.load_started_cb)
+        web_view.connect('document-load-finished',self._document_load_finished_cb)
+        web_view.connect('load-started', self._load_started_cb)
         inspector = Inspector(web_view.get_web_inspector())
 
         scrolled_window = gtk.ScrolledWindow()
@@ -230,75 +267,138 @@ class ContentPane (gtk.Notebook):
             web_view.load_string(ABOUT_PAGE, "text/html", "tis-620", "about")
         else:
             web_view.load_uri(url)
-        self.uri=url
+            
+        #web_view.execute_script(open(sys.path[0]+'/jslib/evalQueryString.js').read())
 
-        #mycode pre define script
-        self._out=""
-        #คำสั่งสำคัญๆ ที่จะรวมกับสคริปปกติไม่ได้ เพราะใช้บ่อย เสียแล้วจะใช้ไม่ได้
-        self.web_view.execute_script(open(_PWD+'/jslib/jquery.js').read())
-        self.web_view.execute_script(open(_PWD+'/jslib/mainLibrary.js').read())
-
-
-        #ถ้ายังไม่เรียกใช้ สคริปที่เสีย หรือหลัังจากสคริปที่เสีย ก็ใช้ได้,
-        #แต่ถ้าเรียกไปแล้ว ทั้งก่อนและหลังจะไม่รันทั้งหมด แม้จะเปิดแล้วปิดใหม่ก็ตาม
+        #Define all query string to javascript
+        """
+             When first time load or when i open in new tab, i can't get real url
+        from window.location, that object show me "about:blank", and i can't get
+        query, too. That why i write a code to define query string in python.
         
-        self.web_view.execute_script("""
-        //to import .js file
-        if (typeof(importList) == 'undefined') var importList = new Object();
-        function jsImport(jsFile) {
-            if (importList[jsFile] != null) return;
-            var scriptElt = document.createElement('script');
-            scriptElt.type = 'text/javascript';
-            scriptElt.src = jsFile;
-            //document.getElementsByTagName('head')[0].appendChild(scriptElt);
-            importList[jsFile] = jsFile; // or whatever value your prefer
-        }
-        """)
-       
+            But when i click a link in current tab, that code doesn't work.
+        Although in this case, i can get real url from window.location, but
+        when i write a code to define query string in javascript, it defined (in mainLibrary.js),
+        but it can't be call from page (eg: 1.htma and in new tab it work by python js
+        just doesn't work).
+
+            Can anybody do it truth ?
+        """
+        try :
+            _queryVars=""
+            _queryVars=_queryVars.join(self._lastURL.split("?")[1:]).split("&")
+            
+            for v in _queryVars:
+                
+                v=v.split("=")
+                if len(v) > 1:
+                    
+                    _varName = v[0].strip()
+                    
+                    _varValue = ""
+                    _varValue = _varValue.join(v[1:]).strip()
+                    _varValue=urllib.unquote(_varValue).replace("'","\\'").replace('"','\\"')
+
+                    if _varValue[0] == "[" or not re.search("[^0-9]",_varValue) :
+                        self.js(_varName+"="+_varValue)
+                    else :
+                        self.js(_varName+"='"+_varValue+"'")
+        except Exception, e:
+            self._showError()
 
     def _showError(self):
+        argsType=""
+        for arg in  self._lastExacArgs:
+            arg=arg[0]
+            if argsType!="":
+                argsType+=","
+            argsType+=str(type(arg))
+            
         exc_type, exc_value, exc_traceback = sys.exc_info()
-        err=""
-        for i in traceback.format_exception(exc_type, exc_value,exc_traceback): # return error string
-            err+=i
-        print err
+        
+        err="Error -- problem : "+self._lastSendExacProblem+" > module : "+self._lastExacModName+" > method : "+self._lastExacMtdName+" ("+argsType+") : \n"
+        
+        tb=traceback.format_exception(exc_type, exc_value,exc_traceback)
+
+        for i in range(0, len(tb)): # return error string
+            if _dev :
+                err+="\t"+tb[i]
+            else:
+                if i>=2:
+                    err+="\t"+tb[i]
+                    
+        print err+"\n"+("*"*70)
+        
+    #my Function
+    def addslashes (self,t) :
+        re="""\n,\r,\r\n,",'""".split(",")
+        to="""\\n,\\r,\\r\\n,\\",\\'""".split(",")
+        for i in range(0, len(re)):
+            t=t.replace(re[i], to[i])
+            
+        return t
+        """
+        #Thai encode problem
+        #repr("กด")
+        #"'\\xe0\\xb8\\x81\\xe0\\xb8\\x94'"
+        t=repr(t)
+        return  t[1:len(t)-1]"""
+
+    def _unquote(self, text):
+        def unicode_unquoter(match):
+            return unichr(int(match.group(1),16))
+        return re.sub(r'%u([0-9a-fA-F]{4})',unicode_unquoter,text)
+
 
     def _title_changed_cb (self, view, frame, title):
-        
+        self._lastUseMtd="title_changed_cb"
         child = self.get_nth_page(self.get_current_page())
         label = self.get_tab_label(child)
         label.set_label(title)
-        webview=self.web_view# สำหนับตอนรัน _local เพราะไม่เห็น self
+        webview=self.web_view
         self.emit("focus-view-title-changed", frame, title)
 
-	if title.startswith("!!import "):
-	  importName = (re.sub("^!!import ", "", title)).split(",")
-	  self.js(makeJsLib.classMaker(importName))
-        elif title != 'null' and title[0:2]!="--" and not title.startswith("!!"):
-            os.chdir(os.path.dirname(re.sub("/*/", "/", self.uri.replace("file:","").replace("http:", ""))))
+        #title=self._unquote(urllib.unquote(title)).replace("\\\n", "\\n")
+        title=title.replace("__NEW_LINE__","\n").replace("\\\n", "\\n")
+        
+        if title[0:2]=="!!" :
+            title=re.sub("^!!", "", title)
+            os.chdir(os.path.dirname(re.sub("/*/", "/", self._lastURL.replace("file:","").replace("http:", ""))))
             try :
-                title=title.replace("_NEWLINE","\n")
                 if _dev:
-                    print "in py or _title_changed_cb func : "+title
+                    print self._lastUseMtd+" > value of title before exec is : "+title
                 exec title in locals()
             except  Exception, e:
-              self._showError()
-            os.chdir(_PWD)
-        elif title[0]=="--":
-            self.js("document.title='"+re.sub("^-- ", "", title).replace("'", r"\\'")+"'")
+                if _dev:
+                    print self._lastUseMtd+" > value of False title is : "+title
+                self._showError()
+                  
+            os.chdir(sys.path[0])
+        else :
+            if title != self._lastTitle:
+                self._lastTitle=title
+                self.js("document.title='"+self.addslashes(title)+"'")
               
     def js (self, javascript_code) :
         if _dev :
-           print "in js func of "+javascript_code
-
+           print "in self.js func of "+javascript_code
         self.web_view.execute_script(javascript_code)
 
     def pyVar(self, varName):
+        if _dev :
+           print "in self.pyVar func of "+varName
+           
         var=getattr(self, varName)
-        jsCode=varName+" = "+json.dumps(var)+";"
+        try :
+            jsCode=varName+" = "+json.dumps(var)+";"
+
+        except Exception, e: 
+            print "\nCore bug !!!, can't return python file type to javascript.\nif you use any method of "+varName+",eg : "+varName+".writelines('test'), it will be error.\nI don't have any idea to correct this function. \nIf you can, join with our to develope THAIPE, please.\n"+"*"*70
+            jsCode=varName+" = "+str(var)+";"
+            self._showError()
+            
         self.js(jsCode)
         
-
     def _view_load_finished_cb(self, view, frame):
         child = self.get_nth_page(self.get_current_page())
         label = self.get_tab_label(child)
@@ -307,12 +407,19 @@ class ContentPane (gtk.Notebook):
             title = frame.get_uri()
         if title:
             label.set_label(title)
-            
-    def load_started_cb (self, widget, argv) :
-        pass #ใช้ไม่ได้จริงๆ สงสัยโดนตัดทิ้งไปแล้ว เมทอดนี้
-        
 
-    def document_load_finished_cb (self, widget, argv) :
+    def _resource_cb(self, view, frame, resource, request, response):
+        pass
+        #request.set_uri('...whatever...')
+        #print request.get_uri()
+        #self.web_view.execute_script(open(sys.path[0]+'/jslib/evalQueryString.js').read())
+            
+    def _load_started_cb (self, widget, argv) :
+        #mycode pre define script
+        self.js(open(sys.path[0]+'/jslib/main.js').read())
+        #self.js(open(sys.path[0]+'/jslib/evalQueryString.js').read())
+
+    def _document_load_finished_cb (self, widget, argv) :
         pass
     
     def _populate_page_popup_cb(self, view, menu):
@@ -342,6 +449,8 @@ class ContentPane (gtk.Notebook):
 
     def _hovering_over_link_cb (self, view, title, uri):
         self._hovered_uri = uri
+        if uri != None :
+            self._lastURL = uri
 
     def _new_web_view_request_cb (self, web_view, web_frame):
         scrolled_window = gtk.ScrolledWindow()
@@ -395,15 +504,15 @@ class WebToolbar(gtk.Toolbar):
         # add tab button
         if toolbar_enabled:
 
-            """addTabButton = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
-            addTabButton.connect("clicked", self._go_to_uri_cb)
-            self.insert(addTabButton, -1)
-            addTabButton.show()"""
+            """gotoPageButton = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
+            gotoPageButton.connect("clicked", self._go_to_uri_cb)
+            self.insert(gotoPageButton, -1)
+            gotoPageButton.show()"""
             
-            """addTabButton = gtk.ToolButton(gtk.STOCK_ADD)
+            addTabButton = gtk.ToolButton(gtk.STOCK_ADD)
             addTabButton.connect("clicked", self._add_tab_cb)
             self.insert(addTabButton, -1)
-            addTabButton.show()"""
+            addTabButton.show()
 
             viewSourceItem = gtk.ToggleToolButton(gtk.STOCK_PROPERTIES)
             viewSourceItem.set_label("View Source Mode")
@@ -432,7 +541,7 @@ class WebBrowser(gtk.Window):
         gtk.Window.__init__(self)
 
         toolbar = WebToolbar()
-        content_tabs = ContentPane()
+        content_tabs = thaipe()
         self.content_tabs=content_tabs
         content_tabs.connect("focus-view-title-changed", self._title_changed_cb, toolbar)
         content_tabs.connect("new-window-requested", self._new_window_requested_cb)
@@ -451,16 +560,16 @@ class WebBrowser(gtk.Window):
         self.show_all()
         
         try:
-	  urlToOpen = sys.argv[1]
-	  # check for abs path
-	  urlToOpen = os.path.abspath(urlToOpen)
-	except IndexError:
-	  urlToOpen = sys.path[0]+"/example/firstPage.htma"
+            urlToOpen = sys.argv[1]
+            # check for abs path
+            urlToOpen = os.path.abspath(urlToOpen)
+        except IndexError:
+            urlToOpen = sys.path[0]+"/example/firstPage.htma"
         
         url="file:///"+urlToOpen
+        content_tabs.url=url
         content_tabs.new_tab(url)
         
-
     def _new_window_requested_cb (self, content_pane, view):
         features = view.get_window_features()
         window = view.get_toplevel()
@@ -485,7 +594,7 @@ class WebBrowser(gtk.Window):
     def _title_changed_cb (self, tabbed_pane, frame, title, toolbar):
         if not title:
            title = frame.get_uri()
-        self.set_title(_("PyWebKitGtk - %s") % title)
+        self.set_title(_("%s - THAIPE") % title)
         load_committed_cb(tabbed_pane, frame, toolbar)
 
 # event handlers
@@ -496,6 +605,7 @@ def load_requested_cb (widget, text, content_pane):
     if not text:
         return
     content_pane.load(text)
+    #content_pane.execute_script(open(sys.path[0]+'/jslib/evalQueryString.js').read())
 
 def load_committed_cb (tabbed_pane, frame, toolbar):
     uri = frame.get_uri()
@@ -515,7 +625,7 @@ def destroy_cb(window, content_pane):
 
 # context menu item callbacks
 def about_pywebkitgtk_cb(menu_item, web_view):
-    web_view.open("http://live.gnome.org/PyWebKitGtk")
+    web_view.open("http://code.google.com/p/thaipe")
 
 def zoom_in_cb(menu_item, web_view):
     """Zoom into the page"""
@@ -564,7 +674,9 @@ def view_source_mode_requested_cb(widget, is_active, content_pane):
     childView.set_view_source_mode(is_active)
     childView.reload()
 
+    
+
 if __name__ == "__main__":
     webbrowser = WebBrowser()
-       
+    print _PROJECT_RELEASE_VERSION
     gtk.main()

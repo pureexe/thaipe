@@ -34,10 +34,16 @@ function require(){
 	      results.python.push(x);
 	      if(x.indexOf(".") != -1){ //ถ้า import มี sub เช่น os.path, ต้องสร้าง obj ชื่อ path ขึ้นใหม่
 		  mods = x.split(".");
-		  mods.pop();
-		  mods.forEach(function(x){
-		    window[x] = new Object(x);
-		  });
+		  mods.pop(); modName = mods.shift(); print(modName);
+		  if(!window[modName]){
+			  pathing = {}
+			  injectHere = pathing // pointer!
+			  mods.forEach(function(x){
+			    injectHere[x] = {}
+			    injectHere = injectHere[x]
+			  });
+			  window[modName] = pathing
+		 }
 	      }
 	   }
 	}
