@@ -11,8 +11,16 @@ function py (pyCode) {
 /*Make python variable(s) to be javascript variable*/
 function pyVar (/*<pyVarName>[0],...,<pyVarName>[n]*/ ) {
 	var args=arguments;
-	for (i=0;i<args.length;i++)
+	for (i=0;i<args.length;i++){
 		py('self.pyVar("'+args[i]+'")');
+		try{
+		    if("__evalthese" in window[args[i]]){
+			window[args[i]]["__evalthese"].forEach(function(x){
+			    window[args[i]][x] = new Function(window[args[i]][x]);
+			});
+		    }
+		}catch(e){}
+	}
 }
 
 /*Return python variable value*/
@@ -20,6 +28,14 @@ function  pyReturn (varName) { /*varName=varToReturn - STRING TYPE*/
 	var t=varName;
 	pyVar (t);
 	return window[t];
+}
+
+function argsToList(arg){
+	out = []
+	for (var i = 0; i < arg.length; i++) {
+	   out.push(arg[i]);
+	}
+	return out;
 }
 
 function require(){
@@ -63,7 +79,7 @@ function require(){
 					window[modName] = new window[modName];
 				}
 				else {
-					// hax!! any better way? I hate this
+					// FIXME: do a recursive loop with pointer and remove this eval
 					eval("window."+modName+" = new window."+modName);
 				}
 			}
@@ -85,10 +101,7 @@ function require(){
 	return true;
 }
 
-/*Imports function*/
-_dummy=["imports(mods){\n\targuments=mods.split(',');",];
-_dummyImports=(""+require).replace("require() {",_dummy[0]);
-eval(_dummyImports);
+imports = require
 
 
 function _ERR(errObj)

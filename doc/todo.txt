@@ -9,8 +9,9 @@ TO DO IN : 0.2a1
 	#This two lines will show "TypeError: Result of expression 'f.writelines' [undefined] is not a function."
 	f.writelines("x\n\y\nz")
 	f.close()
+    willwill: Hopefully fixed. Can you please verify? Note that the above example raise Exception in Python.
 -option (if can be):
---Make tinymce work. 
+ -Make tinymce work.
 
 
 TO DO IN : 0.1stable

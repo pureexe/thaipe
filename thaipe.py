@@ -34,7 +34,7 @@ from pylib.inspector import Inspector
 from jslib import modengine
 
 #my import
-import os, re, glob, urllib
+import os, re, glob, urllib, time
 import traceback #to show error
 
 try:
@@ -384,6 +384,7 @@ class thaipe (gtk.Notebook):
            print "in self.js func of "+javascript_code
         self.web_view.execute_script(javascript_code)
 
+    pointers = {}
     def pyVar(self, varName):
         if _dev :
            print "in self.pyVar func of "+varName
@@ -391,12 +392,19 @@ class thaipe (gtk.Notebook):
         var=getattr(self, varName)
         try :
             jsCode=varName+" = "+json.dumps(var)+";"
-
-        except Exception, e: 
-            print "\nCore bug !!!, can't return python file type to javascript.\nif you use any method of "+varName+",eg : "+varName+".writelines('test'), it will be error.\nI don't have any idea to correct this function. \nIf you can, join with our to develope THAIPE, please.\n"+"*"*70
-            jsCode=varName+" = "+str(var)+";"
-            self._showError()
-            
+        except TypeError, e: 
+	    pid = str(time.time())
+	    self.pointers[pid] = var
+            jsCode=varName+" = "
+            # generate obj code
+            objCode = """args = argsToList(arguments);
+            py("self._out = self.pointers["+JSON.stringify(this.__id)+"].METHOD(*"+JSON.stringify(args)+")");
+            return pyReturn("_out");"""
+	    outObj = {"__id": pid, "__evalthese": []}
+            for i in dir(var):
+		outObj[i] = objCode.replace("METHOD", i)
+		outObj["__evalthese"].append(i)
+	    jsCode = jsCode + json.dumps(outObj)+";"
         self.js(jsCode)
         
     def _view_load_finished_cb(self, view, frame):
