@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+    <title>ThaiPE test suite</title>
+    <link rel="stylesheet" href="qunit.css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="qunit.js"></script>
+    <script>
+$(function(){
+    
+test("Injection", function(){
+    ok(require, "Main file injected");
+});
+module("main.js");
+test("Python code execution", function(){
+    py("self._testVar = True");
+    ok(pyReturn("_testVar"), "Boolean returning");
+    py("self._testVar = (lambda x,y: x==y)(True, True)")
+    ok(pyReturn("_testVar"), "Boolean returning from lambda function");
+    py("import os; self._testVar = os.path.isfile('../thaipe.py')");
+    ok(pyReturn("_testVar"), "Boolean returning from function");
+    py("self._testVar = None");
+    equal(pyReturn("_testVar"), null, "None returning");
+    py("self._testVar = range(5)");
+    deepEqual(pyReturn("_testVar"), [0,1,2,3,4], "List returning");
+    py("self._testVar = {'hello': 'world'}");
+    deepEqual(pyReturn("_testVar"), {"hello": "world"}, "Object returning");
+    py("import cStringIO; self._testVar = cStringIO.StringIO('hello, world')");
+    equal(pyReturn("_testVar").read(), "hello, world", "Complex object returning and method execution");
+});
+test("Module importing", function(){
+    require("os");
+    equal(typeof os.execlp, "function", "Module importing");
+    require("os.path");
+});
+asyncTest("Submodule importing", function(){
+    setTimeout(function(){
+	equal(typeof os.path, "object", "Submodule importing");
+	equal(typeof os.execlp, "function", "Submodule do not overwrites supermodule");
+	imports("os,re");
+	start();
+    }, 1);
+    stop();
+});
+asyncTest("Submodule importing with imports()", function(){
+    setTimeout(function(){
+	equal(typeof os.execlp, "function", "Re-importing works");
+	equal(typeof os.path, "object", "Submodule do not get overwitten if re-importing supermodule");
+	equal(typeof re.M, "number", "Multiple imports is possible");
+	// also prepare for next test suite
+	require("os.path", "cStringIO", "re");
+	start();
+    }, 1);
+    stop();
+});
+// TODO: javascript import
+test("Module exection", function(){
+    ok(os.path.isfile("../thaipe.py"), "Module method can be executed");
+    equal(cStringIO.StringIO("pass").read(), "pass", "C-Based module can be executed");
+    equal(re.M, 8, "Module variables can be read");
+});
+test("File IO", function(){
+    writeFile("test", "pass");
+    equal(readFile("test"), "pass", "File IO");
+    os.unlink("test")
+    ok(!os.path.isfile("test"), "File deletion via os.unlink");
+});
+
+});
+    </script>
+</head>
+<body>
+<h1 id="qunit-header">ThaiPE test suite</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">test markup, will be hidden</div>
+</body>
+</html>
