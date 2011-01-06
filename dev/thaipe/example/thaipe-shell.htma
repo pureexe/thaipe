@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="th"><head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>-*- THAI PE Command Box -*-</title>
+  <meta content="Vorapol Anjalisangas" name="author">
+  <meta content="Command Box for run thaipe script" name="description">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="../jslib/jquery.js"></script>
+<script>
+require("commands");
+function _run(thaiCode) {
+	f=new fileOpen("txt/~tmp.txt", "w");
+	f.write(thaiCode);
+	f.close();
+	print("Command Box's Return : "+commands.getoutput('thaipe "$PWD/txt/~tmp.txt"'));
+}
+
+_num=0;
+function _exec() {
+	var arg = arguments[0];
+	if (typeof arg=="string") {
+		var val=arg;
+	}
+	else {
+		var val=$('#commandBox')[0].value;
+	}
+	
+	var show=$('#resultScreen')[0].value+"\n"+val+"\n>   ";	
+	if(val.strip()!="")
+		show+=eval(val)
+		
+	
+	try{
+		var obj=document.createElement('textarea');
+		if (_num==0) {
+			_num++;
+		}
+		obj.value+=show;
+		$("#resultPlace")[0].removeChild($('#resultScreen')[0]);
+		obj.setAttribute("id", "resultScreen" );
+		obj.rows=10;
+		obj.cols=53;
+		$("#resultPlace")[0].appendChild(obj);
+		obj.scrollTop = obj.scrollHeight; 
+
+		}
+	catch(e){
+		_ERR(e);
+	}	
+}
+
+function _load (){
+	var fileName=commands.getoutput("zenity  --title='Select your file : ' --file-selection --confirm-overwrite");
+	if(fileName!=""){
+		$('#resultScreen')[0].value+="\n>>>Load script from : "+ fileName;
+		$('#commandBox')[0].value=getData(fileName);
+	}
+}
+
+function _save (){
+	var fileName=commands.getoutput("zenity  --title='Type your file name : ' --file-selection  --save --confirm-overwrite");
+	if(fileName!="") {
+		$('#resultScreen')[0].value+="\n>>>Save script to : "+ fileName;
+		/*commands.getoutput('echo """'+$('#commandBox')[0].value.addslashes()+'"""> "'+fileName+'"');*/
+		writeFile(fileName, $('#commandBox')[0].value);
+		$('#resultScreen')[0].value+="\n>>>Save success.";
+	}
+}
+
+$(function(){
+  $("#input").keydown(function(e){
+    if(e.which == 13){
+      _exec($(this).val());
+      this.value="";
+    }
+  });
+});
+
+</script>
+</head>
+<body>
+<span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Norasi; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span class="Apple-style-span" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-size: 13px;"><br class="Apple-interchange-newline">
+<table class="tborder" id="post302356552" style="border: 1px solid rgb(11, 25, 140); background-color: rgb(209, 209, 225); color: rgb(0, 0, 0); width: 50%; text-align: left; margin-left: auto; margin-right: auto; height: 50%;" border="0" cellpadding="6" cellspacing="1"><tbody>
+<tr><td class="thead" style="padding: 4px; font-family: tahoma,verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: bold; font-size: 11px; line-height: normal; font-size-adjust: none; font-stretch: normal; background-image: url(http://solaris.unix.com/images/gradients/gradient_thead.gif); background-color: rgb(92, 112, 153); color: rgb(255, 255, 255); background-position: 0% 50%; height: 95%; width: 95%;"><div class="normal" style="font-weight: normal; float: right;">&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span> <br>
+</div><div class="normal" style="font-weight: normal;">
+      <div style="text-align: center;"><span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Norasi; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span class="Apple-style-span" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-size: 13px;"><span style="font-weight: bold;">THAIPE Command Box</span></span></span></div>
+</div></td></tr><tr><td class="alt2" style="padding: 0px; font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(225, 228, 242); color: rgb(0, 0, 0);"><table style="width: 100%; height: 100%;" border="0" cellpadding="0" cellspacing="6"><tbody><tr><td style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal;" nowrap="nowrap"><br>
+</td><td  id="resultPlace" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal; height: 100%; width: 100%; background-color: rgb(3, 0, 3); text-align: left; vertical-align: top;color:rgb(200,200,200);">
+
+<textarea wrap="soft" id="resultScreen" rows=8 cols=53></textarea>
+<script>$('#resultScreen')[0].value=" THAIPE v."+readFile("../doc/release.txt").strip()+" Command Box ... "</script>
+
+</td><td style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal;" nowrap="nowrap" valign="top"><div class="smallfont" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 11px; line-height: normal; font-size-adjust: none; font-stretch: normal;"></div><div class="smallfont" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 11px; line-height: normal; font-size-adjust: none; font-stretch: normal;"><div style="text-align: center;">
+<span style="font-weight: bold;">THAI PE Command Box</span><br><br>
+</div><div><span style="font-weight: bold;">Execute :</span><br>- Execute your script.<br>
+</div><div><span style="font-weight: bold;">Run in new window :</span><br>
+</div><div>- Execute HTML + Script.<br>
+</div><div><span style="font-style: italic; font-weight: bold;">Open / Save : </span><br>- Import/Export script.<br>
+</div><div align="center"></div><br><i>Feel shell with single line box</i></div></div></td></tr></table>
+
+
+</td></tr><tr><td class="alt1" id="td_post_302356552" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal; background-color: rgb(245, 245, 255); color: rgb(0, 0, 0); height: 95%; width: 95%;"><span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Norasi; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;">
+
+<span class="Apple-style-span" style="font-family: verdana,geneva,lucida,'lucida grande',arial,helvetica,sans-serif; font-size: 13px;">
+
+<div style="text-align: center;">
+
+<input id="input" type="text" style="text-align: left;width:95%;"/>
+
+</div>
+
+<div style="text-align: center;">
+<button 
+	onclick="_exec()" 
+	id="exec"
+>Execute</button> 
+| 
+<button 
+	id="run" 
+	onclick="try{_run($('#commandBox')[0].value);}catch(e){alert('Error :\n    '+e);}" 
+>Run in new window</button>
+| 
+<button 
+	id="load" 
+	onclick="try{_load();}catch(e){alert('Error :\n    '+e);}" 
+>Open</button>
+| 
+<button 
+	id="save" 
+	onclick="try{_save();}catch(e){alert('Error :\n    '+e);}" 
+>Save</button>
+
+</div>
+
+<div align=center>
+<textarea wrap="soft" id="commandBox" rows=10 cols=75>
+</textarea>
+</div>
+</span></span></td></tr></tbody></table><div id="post_thanks_box_302356552"></div></span></span><br class="Apple-interchange-newline">
+</body></html>
