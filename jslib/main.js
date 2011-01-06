@@ -47,20 +47,33 @@ function require(){
 	   if(x.match(/\.js$/)){
 	      results.javascript.push(x);
 	   }else{
-	      results.python.push(x);
+	      // find the module, if existing
+	      mods = x.split(".");
+	      curPoint = window;
+	      curName = null;
+	      mods.forEach(function(o){
+		  if(curPoint[o]){
+		      curPoint = curPoint[o];
+		      curName = o;
+		  }else
+		      return false
+	      });
+	      if(curName == mods[mods.length-1] && !curPoint.__empty) continue;
+	    
 	      if(x.indexOf(".") != -1){ //ถ้า import มี sub เช่น os.path, ต้องสร้าง obj ชื่อ path ขึ้นใหม่
 		  mods = x.split(".");
-		  mods.pop(); modName = mods.shift(); print(modName);
+		  mods.pop(); modName = mods.shift();
 		  if(!window[modName]){
-			  pathing = {}
+			  pathing = {"__empty": true}
 			  injectHere = pathing // pointer!
 			  mods.forEach(function(x){
-			    injectHere[x] = {}
+			    injectHere[x] = {"__empty": true}
 			    injectHere = injectHere[x]
 			  });
 			  window[modName] = pathing
 		 }
 	      }
+	      results.python.push(x);
 	   }
 	}
 	if(results.python.length > 0){
@@ -69,7 +82,6 @@ function require(){
 		
 		//Change for merge title, !!title, and --title syntax, title stable now. 
 	    py("self._dummy=self._modengine.genjscode('"+modNames+"'.split(','))");
-        //print(pyReturn("_dummy"))
 	    eval(pyReturn("_dummy"));
         
 	    // initiate all imported stuff
