@@ -2,10 +2,10 @@ $insteadModName=function() {
     try{
         py("self._lastSendExacProblem='Request module error'");
         py("self._lastExacModName='$insteadModName'");
-        /*py("self._objList.append(None)");
+        py("self._objList.append(None)");
         py("self._dummy=len(self._objList)-1");
-        this.id=pyReturn("_dummy");*/
-        this.id=_newPyObj();
+        this.id=pyReturn("_dummy");
+        //this.id=_newPyObj();
         this.args=arguments;
 
         py("import $modName\nself._objList["+this.id+"] = $modName");
