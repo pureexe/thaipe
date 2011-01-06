@@ -1,5 +1,6 @@
 TO DO IN : 0.2a1
 -Option of require and imports, require ("all from <module>") and/or imports ("all from <module>").
+willwill: done.
 -Will fix bug (Now, I don't have any idea about it) :
 	require("io")
 	#this line return python file type to javascript that is lazy return 
