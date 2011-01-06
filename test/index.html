@@ -35,7 +35,7 @@ test("Module importing", function(){
 });
 asyncTest("Submodule importing", function(){
     setTimeout(function(){
-	equal(typeof os.path, "object", "Submodule importing");
+	equal(typeof os.path.isfile, "function", "Submodule importing");
 	equal(typeof os.execlp, "function", "Submodule do not overwrites supermodule");
 	imports("os,re");
 	start();
