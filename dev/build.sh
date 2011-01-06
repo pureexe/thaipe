@@ -15,5 +15,6 @@ rm -r $pkgName
 			cp -Rf "../$dir" "$des" 
 	done
 	tar cjfv $pkgName thaipe install.sh readme.txt
-
+    
+    rm -r $des
 	
