@@ -54,7 +54,7 @@ asyncTest("Submodule importing with imports()", function(){
 });
 asyncTest("All from module import with imports()", function(){
     setTimeout(function(){
-	ok(iskeyword("__name__") === true, "imports('all from modulename'); works");
+	ok(iskeyword("for") === true, "imports('all from modulename'); works");
 	// also prepare for next test suite
 	require("os.path", "cStringIO", "re");
 	start();
