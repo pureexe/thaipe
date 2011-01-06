@@ -116,7 +116,23 @@ function require(){
 function imports(){
     argsToList(arguments).forEach(function(x){
 	x = x.split(/[ ]*,[ ]*/);
+	impAll = [];
+	x.forEach(function(val,id){
+	    if(val.match(/^(all from )/)) val = val.match(/^all from (.*)/)[1];
+	    x[id] = val;
+	    impAll.push(val);
+	});
 	require.apply(this, x);
+	impAll.forEach(function(i){
+	    curPoint = window;
+	    i.split(".").forEach(function(y){
+		curPoint = window[y];
+	    });
+	    // now we got it, smash and grab
+	    curPoint.__all__.forEach(function(nm){
+		window[nm] = curPoint[nm];
+	    });
+	});
     });
     return true;
 }
