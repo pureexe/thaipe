@@ -7,5 +7,5 @@ Terminal=false
 Type=Application
 Categories=Application;Development;
 StartupNotify=true
-MimeType=text/htma;
+MimeType=text/x-thaipe
 Encoding=UTF-8

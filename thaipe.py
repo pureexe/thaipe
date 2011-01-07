@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/python
 #-*-coding:utf8-*-
 # Copyright (C) 2007, 2008, 2009 Jan Michael Alonzo <jmalonzo@gmai.com>
 #
