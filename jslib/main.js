@@ -316,7 +316,6 @@ function _convertArray (arr) {
 	return conArr;
 }
 
-
 /*From here on, place for necessary object and function for user
  *obj must has "id" property for conect with python*/
 
