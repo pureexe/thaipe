@@ -12,7 +12,7 @@ TO DO IN : 0.1stable
 TO DO IN : 0.1beta2
 -Evalute query string to global variable for all event.
 -Double Click to run .htma file(s).
--Fixed, Option of require and imports, require ("all from <module>") and/or imports ("all from <module>"), willwill.
+-Retarget please: Option of require and imports, require ("all from <module>") and/or imports ("all from <module>"), willwill.
 -Fixed, submodule require() overwrites supermodule, willwill.
 -Fixed, get return object, willwill (Current, can't recursive in sub-object) :
 	require("io")
