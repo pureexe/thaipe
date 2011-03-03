@@ -1,4 +1,0 @@
-<script>
-require("commands")
-alert("Selected : \n\t"+commands.getoutput("zenity --file-selection"))
-</script>

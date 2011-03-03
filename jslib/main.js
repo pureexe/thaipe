@@ -390,3 +390,32 @@ function writeFile (fileName, str) {
 		var f=new fileOpen(fileName, "w");
 		return f.writeFile(str);
 }
+
+/*Evalute query string*/
+try{
+	var _dummy=window.location.search.strip();
+	if ( _dummy!= "") {
+
+		_dummy=unescape(_dummy.substring(1)).replace("'","\\'").replace('"','\\"');
+		
+		_dummy=_dummy.split("&");
+			
+		for (i=0;i<_dummy.length;i++) {
+			var _dummy2=_dummy[i];
+			var varName=_dummy2.split("=")[0];
+			var varValue=_dummy2.split("=");
+			varValue.shift();
+			varValue=varValue.join("").trim();
+			if (! (varValue.search(/[^0-9]/)>-1) || varValue[0]=="[") {
+				eval(varName+" = "+varValue);
+			}
+			else {
+				eval(varName+" = '"+varValue+"'");
+			}
+		}
+	}
+}
+catch(_dummy) {print("Js query string error : "+_dummy);}
+
+delete _dummy;
+delete _dummy2;

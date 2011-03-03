@@ -1,6 +1,8 @@
-#! /usr/bin/python
+#!/usr/bin/python
+#
 #-*-coding:utf8-*-
-# Copyright (C) 2007, 2008, 2009 Jan Michael Alonzo <jmalonzo@gmai.com>
+# Copyright (C) 2011 Vorapol Anjalisangas <thaithonpe@gmai.com>
+# Ditribute from exaple browser of pygtkwebkit by Jan Alonzo <jmalonzo@unpluggable.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -11,17 +13,6 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-# TODO:
-#
-# * fix tab relabelling
-# * search page interface
-# * custom button - w/o margins/padding to make tabs thin
-#
 
 from gettext import gettext as _
 
@@ -36,35 +27,31 @@ from jslib import modengine
 #my import
 import os, re, glob, urllib, time
 import traceback #to show error
+import warnings
 
 try:
     import json #python 2.6
 except ImportError:
     import simplejson as json #pypi it
+    
+warnings.filterwarnings('ignore')
 
 ABOUT_PAGE = """
 <html><head><title>THAI Programming Environment - About</title></head><body>
-<h1>Welcome to <code>THAI Programming Environment (THAI PE)</code></h1>
+<h1>Welcome to <code>THAI Programming Environment (THAI PE) Version : REPLACE_FULLREV</code></h1>
 <p><a
 href="http://code.google.com/p/thaipe/">http://code.google.com/p/thaipe/</a><br/>
 </p>
 </body></html>
 """
-
 _PROJECT_NANE="Thai's HTML Application Idea Programming Environment"
 _PROJECT_ABBR="thaipe"
-_PROJECT_VERSION="0"
-_PROJECT_SUBVERSION="1"
-_PROJECT_STATUS="beta"
-_PROJECT_BUILDING="1"
+_PROJECT_RELEASE="REPLACE_FULLREV"
 
 _PROJECT_RELEASE_VERSION="*"*70+"\n\n"+ \
-_PROJECT_NANE+" ("+_PROJECT_ABBR+") ... \n\n \
-starting up... easier... develop.....\n\n"+ \
-"\nrelease version : "+_PROJECT_VERSION+ \
-"\nsubversion : "+_PROJECT_SUBVERSION+ \
-"\nstatus : "+_PROJECT_STATUS+ \
-"\nbuilding : "+_PROJECT_BUILDING+ \
+_PROJECT_NANE+" ("+_PROJECT_ABBR+") ... \n\n\n\
+starting up... easier... develop.....\n\n\n"+ \
+"revision : "+_PROJECT_RELEASE+ \
 "\n\n\nstarted.\n\n"+ \
 "*"*70+"\n"
 
@@ -193,6 +180,7 @@ class thaipe (gtk.Notebook):
         self._out=""
         self._dummy=""
         self._title=""
+        self.insert_imptag=insert_imptag
         
         """initialize the content pane"""
         gtk.Notebook.__init__(self)
@@ -207,10 +195,10 @@ class thaipe (gtk.Notebook):
         """load the given uri in the current web view"""
         child = self.get_nth_page(self.get_current_page())
         view = child.get_child()
+        insert_imptag(text)
         view.load_uri(text)
         if text != None :
             self._lastURL=text
-        #self.web_view.execute_script(open(sys.path[0]+'/jslib/evalQueryString.js').read())
         
     def new_tab_with_webview (self, webview):
         """creates a new tab with the given webview as its child"""
@@ -223,7 +211,6 @@ class thaipe (gtk.Notebook):
             self._lastURL=url
         browser = BrowserPage()
         self._construct_tab_view(browser, url)
-        #self.web_view.execute_script(open(sys.path[0]+'/jslib/evalQueryString.js').read())
 
     def _construct_tab_view (self, web_view, url=None):
         if url!=None :
@@ -264,26 +251,12 @@ class thaipe (gtk.Notebook):
         # load the content
         self._hovered_uri = None
         if not url:
-            web_view.load_string(ABOUT_PAGE, "text/html", "tis-620", "about")
+            web_view.load_string(ABOUT_PAGE, "text/html", "utf-8", "about")
         else:
+            insert_imptag(url)
             web_view.load_uri(url)
             
-        #web_view.execute_script(open(sys.path[0]+'/jslib/evalQueryString.js').read())
-
-        #Define all query string to javascript
-        """
-             When first time load or when i open in new tab, i can't get real url
-        from window.location, that object show me "about:blank", and i can't get
-        query, too. That why i write a code to define query string in python.
-        
-            But when i click a link in current tab, that code doesn't work.
-        Although in this case, i can get real url from window.location, but
-        when i write a code to define query string in javascript, it defined (in mainLibrary.js),
-        but it can't be call from page (eg: 1.htma and in new tab it work by python js
-        just doesn't work).
-
-            Can anybody do it truth ?
-        """
+        #in use
         try :
             _queryVars=""
             _queryVars=_queryVars.join(self._lastURL.split("?")[1:]).split("&")
@@ -337,12 +310,6 @@ class thaipe (gtk.Notebook):
             t=t.replace(re[i], to[i])
             
         return t
-        """
-        #Thai encode problem
-        #repr("กด")
-        #"'\\xe0\\xb8\\x81\\xe0\\xb8\\x94'"
-        t=repr(t)
-        return  t[1:len(t)-1]"""
 
     def _unquote(self, text):
         def unicode_unquoter(match):
@@ -393,18 +360,18 @@ class thaipe (gtk.Notebook):
         try :
             jsCode=varName+" = "+json.dumps(var)+";"
         except TypeError, e: 
-	    pid = str(time.time())
-	    self.pointers[pid] = var
+            pid = str(time.time())
+            self.pointers[pid] = var
             jsCode=varName+" = "
             # generate obj code
             objCode = """args = argsToList(arguments);
             py("self._out = self.pointers["+JSON.stringify(this.__id)+"].METHOD(*"+JSON.stringify(args)+")");
             return pyReturn("_out");"""
-	    outObj = {"__id": pid, "__evalthese": []}
+            outObj = {"__id": pid, "__evalthese": []}
             for i in dir(var):
-		outObj[i] = objCode.replace("METHOD", i)
-		outObj["__evalthese"].append(i)
-	    jsCode = jsCode + json.dumps(outObj)+";"
+                outObj[i] = objCode.replace("METHOD", i)
+                outObj["__evalthese"].append(i)
+            jsCode = jsCode + json.dumps(outObj)+";"
         self.js(jsCode)
         
     def _view_load_finished_cb(self, view, frame):
@@ -418,14 +385,9 @@ class thaipe (gtk.Notebook):
 
     def _resource_cb(self, view, frame, resource, request, response):
         pass
-        #request.set_uri('...whatever...')
-        #print request.get_uri()
-        #self.web_view.execute_script(open(sys.path[0]+'/jslib/evalQueryString.js').read())
             
     def _load_started_cb (self, widget, argv) :
-        #mycode pre define script
-        self.js(open(sys.path[0]+'/jslib/main.js').read())
-        #self.js(open(sys.path[0]+'/jslib/evalQueryString.js').read())
+        pass
 
     def _document_load_finished_cb (self, widget, argv) :
         pass
@@ -511,11 +473,6 @@ class WebToolbar(gtk.Toolbar):
 
         # add tab button
         if toolbar_enabled:
-
-            """gotoPageButton = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
-            gotoPageButton.connect("clicked", self._go_to_uri_cb)
-            self.insert(gotoPageButton, -1)
-            gotoPageButton.show()"""
             
             addTabButton = gtk.ToolButton(gtk.STOCK_ADD)
             addTabButton.connect("clicked", self._add_tab_cb)
@@ -531,9 +488,6 @@ class WebToolbar(gtk.Toolbar):
     def location_set_text (self, text):
         self._entry.set_text(text)
 
-    """def _go_to_uri_cb(self, entry):
-        self.emit("load-requested", entry.props.text)"""
-
     def _entry_activate_cb(self, entry):
         self.emit("load-requested", entry.props.text)
 
@@ -546,6 +500,7 @@ class WebToolbar(gtk.Toolbar):
 class WebBrowser(gtk.Window):
 
     def __init__(self):
+        gtk.gdk.threads_init() # suggested by Nicholas Herriot for Ubuntu Koala
         gtk.Window.__init__(self)
 
         toolbar = WebToolbar()
@@ -568,13 +523,13 @@ class WebBrowser(gtk.Window):
         self.show_all()
         
         try:
-            urlToOpen = sys.argv[1]
-            # check for abs path
-            urlToOpen = os.path.abspath(urlToOpen)
+            url = sys.argv[1]
         except IndexError:
-            urlToOpen = sys.path[0]+"/example/firstPage.htma"
-        
-        url="file:///"+urlToOpen
+            url = "file://"+sys.path[0]+"/example/firstPage.htma"
+            
+        if url.find(":/") < 0 :
+            url="file://"+url
+            
         content_tabs.url=url
         content_tabs.new_tab(url)
         
@@ -604,6 +559,18 @@ class WebBrowser(gtk.Window):
            title = frame.get_uri()
         self.set_title(_("%s - THAIPE") % title)
         load_committed_cb(tabbed_pane, frame, toolbar)
+        
+#insert nessesary import script tag at first of page
+def insert_imptag (url) :
+    if url.strip()[0:5] is "file:" and url.find("about:blank")>-1 :
+        path="/"+":/".join(re.sub("\?.*", "", re.sub("//*", "/", url)).split(":/")[1:])
+        imptag="<script src=/opt/thaipe/jslib/main.js'></script>"
+        with open(path) as f :
+            code=f.read()
+        if code.splitlines()[0].strip() != imptag :
+            f=open(path, "w")
+            f.write(imptag+"\n"+code)
+            f.close()
 
 # event handlers
 def new_tab_requested_cb (toolbar, content_pane):
@@ -613,7 +580,7 @@ def load_requested_cb (widget, text, content_pane):
     if not text:
         return
     content_pane.load(text)
-    #content_pane.execute_script(open(sys.path[0]+'/jslib/evalQueryString.js').read())
+    
 
 def load_committed_cb (tabbed_pane, frame, toolbar):
     uri = frame.get_uri()

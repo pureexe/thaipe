@@ -1,0 +1,20 @@
+After we begun THAIThon CPE Project, I will do...
+-Thaithon option for run Python Clonning Syntax JavaScript. 
+
+TO DO IN : ~0.5alpha1
+-Recode all to be GPL, LGPL Code to be BSD, public domain, ...  license code (Nowaday, I will look about license type) and for fix some lasy core bug like qury string, etc.
+
+TO DO IN : 0.2alpha1
+-Decode sys.argv[1] that critical program when use it (open(sys.argv[1]), run thai charactor path/file by open with option of browser,etc) to correct form.
+	--file:///home/a/Project/%E0%B9%80%E0%B8%82%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B9%82%E0%B8%9B%E0%B8%A3%E0%B9%81%E0%B8%81%E0%B8%A3%E0%B8%A1/thaipe/thaipe/example/queryString/3.htma
+	--file:///home/a/Project/เขียนโปรแกรม/thaipe/thaipe/example/queryString/3.htma
+-Auto add head (<script src='/opt/thaipe/jslib/main.js'></script>,etc) to current target link click. 
+-Add command option function.
+-Clear value of self._strList, self._objList by check exist of javascript variable that refer to them.
+-if can be - Make tinymce work.
+
+TO DO IN : 0.1stable
+-Clear bug.
+
+TO DO IN : 0.1beta2
+-Rename some file/derectory names to be clear name (pylib -> libpy, etc).
