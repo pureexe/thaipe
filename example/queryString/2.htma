@@ -1,3 +1,4 @@
+<script src='/opt/thaipe/jslib/main.js'></script>
 fromPage = <script>document.write(fromPage)</script>
 </br>
 </br>

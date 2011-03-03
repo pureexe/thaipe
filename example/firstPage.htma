@@ -11,5 +11,3 @@ document.write(readFile("firstPage.html"));
 	target.innerHTML="<ul>"+index+"</ul>";
 	document.title="-- แนะนำ THAI PE -- -";
 </script>
-
-
