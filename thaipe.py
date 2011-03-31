@@ -1,8 +1,8 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 #
-#-*-coding:utf8-*-
 # Copyright (C) 2011 Vorapol Anjalisangas <thaithonpe@gmai.com>
-# Ditribute from exaple browser of pygtkwebkit by Jan Alonzo <jmalonzo@unpluggable.com>
+# Ditribute from example browser of pygtkwebkit by Jan Alonzo <jmalonzo@unpluggable.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,13 +21,14 @@ import gobject
 import gtk
 import pango
 import webkit
-from pylib.inspector import Inspector
-from jslib import modengine
+from libpy.inspector import Inspector
+from libjs import modengine
 
 #my import
 import os, re, glob, urllib, time
 import traceback #to show error
 import warnings
+from libpy.imptag import *
 
 try:
     import json #python 2.6
@@ -327,10 +328,10 @@ class thaipe (gtk.Notebook):
 
         #title=self._unquote(urllib.unquote(title)).replace("\\\n", "\\n")
         title=title.replace("__NEW_LINE__","\n").replace("\\\n", "\\n")
-        
+        #title=libthaipy.thaipy.pythonToJS (title)
         if title[0:2]=="!!" :
             title=re.sub("^!!", "", title)
-            os.chdir(os.path.dirname(re.sub("/*/", "/", self._lastURL.replace("file:","").replace("http:", ""))))
+            os.chdir(os.path.dirname(re.sub("//*", "/", self._lastURL.replace("file:","").replace("http:", ""))))
             try :
                 if _dev:
                     print self._lastUseMtd+" > value of title before exec is : "+title
@@ -340,7 +341,7 @@ class thaipe (gtk.Notebook):
                     print self._lastUseMtd+" > value of False title is : "+title
                 self._showError()
                   
-            os.chdir(sys.path[0])
+            os.chdir(sys.path[1])
         else :
             if title != self._lastTitle:
                 self._lastTitle=title
@@ -524,12 +525,13 @@ class WebBrowser(gtk.Window):
         
         try:
             url = sys.argv[1]
+
         except IndexError:
-            url = "file://"+sys.path[0]+"/example/firstPage.htma"
+            url = "file://"+sys.path[0]+"/applications/system/appman/index.htma"
             
         if url.find(":/") < 0 :
             url="file://"+url
-            
+
         content_tabs.url=url
         content_tabs.new_tab(url)
         
@@ -559,18 +561,6 @@ class WebBrowser(gtk.Window):
            title = frame.get_uri()
         self.set_title(_("%s - THAIPE") % title)
         load_committed_cb(tabbed_pane, frame, toolbar)
-        
-#insert nessesary import script tag at first of page
-def insert_imptag (url) :
-    if url.strip()[0:5] is "file:" and url.find("about:blank")>-1 :
-        path="/"+":/".join(re.sub("\?.*", "", re.sub("//*", "/", url)).split(":/")[1:])
-        imptag="<script src=/opt/thaipe/jslib/main.js'></script>"
-        with open(path) as f :
-            code=f.read()
-        if code.splitlines()[0].strip() != imptag :
-            f=open(path, "w")
-            f.write(imptag+"\n"+code)
-            f.close()
 
 # event handlers
 def new_tab_requested_cb (toolbar, content_pane):

@@ -1,9 +1,10 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
 <!doctype html>
 <html>
 <head>
     <title>ThaiPE test suite</title>
     <link rel="stylesheet" href="qunit.css">
-    <script src="../jslib/jquery.js"></script>
+    <script src="../libjs/jquery.js"></script>
     <script src="qunit.js"></script>
     <script>
 $(function(){
@@ -76,6 +77,34 @@ test("File IO", function(){
     ok(!os.path.isfile("test"), "File deletion via os.unlink");
 });
 
+});
+
+test("Module importing by importsx () ", function(){
+    importsx("os.path");
+    equal(typeof os.path.abspath, "function", "Module importing");
+    importsx("os.path");
+});
+
+test("Variable change when use method of os.path ", function(){
+    
+    imports("libpy.imptag,libpy.mylib,os.path")
+    var filesobj=libpy.mylib.listDir("./example/variable change")
+    var filels=(filesobj+"").replace(/\/\//g,"/").split(",")
+    var last=""
+    
+    for(i in filesobj) {
+        ok(last!=filesobj[i],  "Last file and current file must be not equal")
+        last=filesobj[i]
+    }
+    
+    var last=""
+    for(i in filesobj) {
+        /***difference line***/
+        os.path.dirname(document.location.pathname) 
+        /***end of difference line***/
+        ok(last!=filesobj[i],  "Last file and current file must be not equal")
+        last=filesobj[i]
+    }
 });
     </script>
 </head>

@@ -13,37 +13,38 @@ numrev=$a.$b.$c1.$d
 halfrev=$a.$b$c2$d
 fullrev=$a.$b$c3$d
 
-pkgName="thaipe-"$halfrev".tar.bz2"
+pkgName="thaipe-"$halfrev".run"
 des="./bin/thaipe"
 
 if [ -s $des ]
 then
-    sudo rm -r $des;
+    sudo rm -r ./bin;
 fi
 
 mkdir -p $des 
-
-python ./pylib/_preBuild.py
-chmod 777 ./thaipe.py
-for dir in  pylib example doc jslib test .config thaipe.py install.sh readme.txt
+cd ./libpy; python ./_preBuild.py; cd ..
+chmod  755 ./thaipe.py
+for dir in  libpy applications doc libjs test config thaipe.py install.sh readme.txt
 do
         cp -Rf "./$dir" "$des" 
 done
 
 cd $des
 
+cp -f ./install.sh ../
+
 echo "---------------------------------------------------"
-rpl -R "REPLACE_NUMREV" "$numrev" ./*
-rpl -R "REPLACE_HALFREV" "$halfrev" ./*
-rpl -R "REPLACE_FULLREV" "$fullrev" ./*
+rpl -Ra "REPLACE_NUMREV" "$numrev" ./*
+rpl -Ra "REPLACE_HALFREV" "$halfrev" ./*
+rpl -Ra "REPLACE_FULLREV" "$fullrev" ./*
 echo "---------------------------------------------------"
 
-mv -f ./install.sh ../
-cp -f ./../../install.sh ./
 cd ..
 if [ -s $pkgName ]
 then
     rm -r $pkgName
 fi
-tar cjf $pkgName thaipe install.sh
+tar czf thaipe.tar.gz thaipe
+cat install.sh thaipe.tar.gz >$pkgName
+chmod +x ./$pkgName
 cp $pkgName ../../release
