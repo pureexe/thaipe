@@ -1,0 +1,4 @@
+fromPage = <script>document.write(fromPage)</script>
+</br>
+</br>
+<a href=./index.htma?fromPage=3.htma>Go to index.htma and pass "3.htma" string to fromPage variable</a>
