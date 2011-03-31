@@ -15,6 +15,8 @@ TO DO IN : 0.2alpha1
 
 TO DO IN : 0.1stable
 -Clear bug.
+-./applications/index.htma work fail.
+-Bug in tes suit.
 
 TO DO IN : 0.1beta2
 -Rename some file/derectory names to be clear name (pylib -> libpy, etc).

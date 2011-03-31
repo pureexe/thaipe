@@ -1,11 +1,15 @@
 thaipe-0.1beta2.tar.bz2 - **/**/****
--Fixed, fail loading "./jslib/main.js" when resubmit url in url entry, or reload menu (Run thaipe command and resubmit or reload to see problem). 
+-Added, application manager, vorapol.
+-Renamed, ./pylib to ./libpy, ./jslib to ./libjs and added ./config folder, vorapol.
+-Fixed, fail loading "./jslib/main.js" when resubmit url in url entry, or reload menu (Run thaipe command and resubmit or reload to see problem), vorapol. 
 -Fixed, evalute query string to global variable for all event (self target link, etc), vorapol. 
 -Added, gtk.gdk.threads_init() , vorapol.
--Added, insert_imptag() to auto add head (<script src='/opt/thaipe/jslib/main.js'></script>,etc) -- current can't add to current target link click, vorapol. 
+-Added, insert_imptag() to auto add head to first line (<script src='/opt/thaipe/libjs/main.js'></script>,etc) -- current can't add to current target link click, vorapol. 
+-Added, multiple add thaipe system tag to file, for many script that can't to open for all, vorapol.
 -Added, new installer , vorapol. -
+--Only one file (.run)
 --Install new version and Uninstall old version.
---Set option of browser like - double click, right click, and open with - on linux (test on lubuntu 10.04 original).
+--Set option of browser "open with" - on linux (test on lubuntu 10.04 original).
 -Added, BSD License for some files , vorapol.
 -Fixed, Option of require and imports, require ("all from <module>") and/or imports ("all from <module>"), willwill.
 -Fixed, submodule require() overwrites supermodule, willwill.

@@ -1,5 +1,8 @@
+Version/Revision :
+	REPLACE_FULLREV
+
 Future Change :
-	See ./doc/change.log.
+	See ./thaipe/doc/change.log.
 
 Installation :
 	sudo ./REPLACE_HALFREV.run
@@ -16,13 +19,10 @@ Run:
 		thaipe /your/program/path/myPlog.htma
 
 Document :
-	See ./doc directory for more information.
+	See ./doc/thaipe directory for more information.
 
 Example :
-	See ./example.
+	See /applications/programming/thaipe/example
 
 License :
 	GPL, see ./doc/license.txt  directory.
-
-Version/Revision :
-	See ./doc/release.
