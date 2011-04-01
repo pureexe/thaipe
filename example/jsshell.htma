@@ -1,3 +1,4 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/Users/manatsawinhanmongkolchai/Documents/thaipe/libjs/main.js'></script>
 <!doctype html>
 <html>
 <head>
@@ -7,11 +8,11 @@ body{
   padding:0;margin:0;
 }
 pre{
-  height: 100%;
+  height: 90%;
   width: 100%;
   padding: 5px;
+  overflow: auto;
   -webkit-box-sizing: border-box;
-  margin-bottom: 2em;
 }
 footer{
   position: fixed;
@@ -36,7 +37,7 @@ function print(x, output){
   dd=$("<div />").text(x).appendTo("pre");
   if(output === true) dd.html("<b>&gt;&gt;&gt;</b> "+dd.text());
   //$(document).animate({scrollTop: 100000000000}, 500);
-  $(document).scrollTop(100000000000);
+  $("pre").scrollTop(100000000000);
   return dd;
 }
 function clear(){
