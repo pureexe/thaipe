@@ -1,4 +1,7 @@
-thaipe-0.1beta2.tar.bz2 - **/**/****
+thaipe-0.1stable.run - --/--/----
+-Hacked, Title \t,\w,\n replacement by __TAB__,__WHSP__, and __NEW_LINE__.
+
+thaipe-0.1beta2.run - 31/03/2554
 -Added, application manager, vorapol.
 -Renamed, ./pylib to ./libpy, ./jslib to ./libjs and added ./config folder, vorapol.
 -Fixed, fail loading "./jslib/main.js" when resubmit url in url entry, or reload menu (Run thaipe command and resubmit or reload to see problem), vorapol. 

@@ -2,7 +2,7 @@ _jsKeyword=["abstract", "else", "instanceof", "switch", "boolean", "enum", "int"
 _dev=false;
 //eval python code
 function py (pyCode) {
-	pyCode=pyCode.replace(/\n/g,"__NEW_LINE__") //title จะ replace \n ทิ้งหมด เลยกันไว้
+	pyCode=pyCode.replace(/\n/g,"__NEW_LINE__").replace(/ /g,"__WHSP__").replace(/\t/g,"__TAB__") //title จะ replace \n \t \w>1 ทิ้งหมด เลยกันไว้
 	var beforeTitle=document.title;
 	document.title = "!!"+pyCode;
 	document.title = beforeTitle;
@@ -11,7 +11,7 @@ function py (pyCode) {
 /*Make python variable(s) to be javascript variable*/
 function pyVar (/*<pyVarName>[0],...,<pyVarName>[n]*/ ) {
 	var args=arguments;
-	for (i=0;i<args.length;i++){
+	for (var i=0;i<args.length;i++){
 		py('self.pyVar("'+args[i]+'")');
 		try{
 		    if("__evalthese" in window[args[i]]){
@@ -458,3 +458,23 @@ catch(_dummy) {print("Js query string error : "+_dummy);}
 
 delete _dummy;
 delete _dummy2;
+Array.prototype.stepSlice=function (start, stop, step) {
+var dummy=[];
+var dum=this.slice(start, stop);
+for (dumKey in dum) {
+if (dumKey%step==0) {
+print ("x"+dum[dumKey]);
+print (dumKey);
+dummy+=dum[dumKey];
+}
+}
+return dummy;
+}
+
+Object.prototype.stepSlice=function (start, stop, step) {
+return this;
+}
+
+String.prototype.stepSlice=function () {
+return this;
+}

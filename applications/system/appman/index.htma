@@ -51,13 +51,18 @@ function maketree(basename){
     for (var i=0;i<ls.length;i++) {
         var path=basename+"/"+ls[i];
         var basefolder=basename.split("/").pop()
-        if (os.path.isdir(path) && (libpy.mylib.listdir(basename)+"").search(".htma")>-1) {
-            document.write('<li><a href="#"><strong>'+ls[i]+'</strong></a><ul>')
-            maketree(path)
-            if (os.path.isfile(path+"/index.htma")) {
-                        document.write('<li><a href="'+path+'/index.htma">'+basefolder+'</a></li>')
+        if (os.path.isdir(path) && (libpy.mylib.listdir(basename)+"").search("index.htma")>-1) {
+			if (os.path.isfile(path+"/index.htma")) {
+				document.write('<li><a href="'+path+'/index.htma">'+ls[i]+'</a></li>')
             }
-            document.write('</ul></li>')
+            else {
+				if ((libpy.mylib.listdir(path)+"").search("index.htma")>-1) {
+					document.write('<li><a href="#"><strong>'+ls[i]+'</strong></a><ul>')
+					maketree(path)
+					document.write('</ul></li>')
+				}
+			}
+            
         }
     }
 }

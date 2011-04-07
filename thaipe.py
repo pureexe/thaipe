@@ -327,7 +327,7 @@ class thaipe (gtk.Notebook):
         self.emit("focus-view-title-changed", frame, title)
 
         #title=self._unquote(urllib.unquote(title)).replace("\\\n", "\\n")
-        title=title.replace("__NEW_LINE__","\n").replace("\\\n", "\\n")
+        title=title.replace("__NEW_LINE__","\n").replace("\\\n", "\\n").replace("__WHSP__"," ").replace("__TAB__","\t")
         #title=libthaipy.thaipy.pythonToJS (title)
         if title[0:2]=="!!" :
             title=re.sub("^!!", "", title)
