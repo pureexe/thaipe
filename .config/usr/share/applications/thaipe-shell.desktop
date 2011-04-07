@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=THAIPE Shell
+Comment=Prompt window for Thai's HTML Application Idia Programming Environment 
+Exec=thaipe /opt/thaipe/example/thaipe-shell.htma
+Icon=/usr/share/pixmaps/thaipe.xpm
+Terminal=false
+Type=Application
+Categories=Application;Development;IDE;
+StartupNotify=true
+MimeType=text/x-thaipe
+Encoding=UTF-8

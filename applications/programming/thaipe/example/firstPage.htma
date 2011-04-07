@@ -1,0 +1,17 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
+<script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="../libjs/jquery.js"></script>
+<script>
+document.write(readFile("firstPage.html"));
+</script>
+<script>
+	index="<a name=top></a><h1>สารบัญหัวเรื่อง .-</h1>";
+	for (var i=0;i<$("h2").size();i++){
+		index +="<li><a href='./firstPage.htma#head"+(i+1)+"'>"+$("h2")[i].innerHTML+"</a></li>";
+		$("h2")[i].innerHTML=$("h2")[i].innerHTML+" [<a  href=./firstPage.htma#top>^</a>]";
+	}
+	target=$("div").get(0);
+	target.innerHTML="<ul>"+index+"</ul>";
+	document.title="-- แนะนำ THAI PE -- -";
+</script>

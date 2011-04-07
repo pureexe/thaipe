@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+	<mime-type type="text/x-thaipe">
+      <!--Created automatically by update-mime-database. DO NOT EDIT!-->
+      <comment>ThaiPE Script</comment>
+      <comment xml:lang="en_GB">ThaiPE Script</comment>
+      <comment xml:lang="th">สคริป ThaiPE</comment>
+      <alias type="text/x-thaipe"/>
+      <sub-class-of type="application/x-executable"/>
+      <sub-class-of type="text/plain"/>
+      <glob pattern="*.htma"/>
+    </mime-type>
+</mime-info>

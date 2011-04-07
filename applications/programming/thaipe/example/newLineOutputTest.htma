@@ -1,0 +1,13 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
+<pre>
+-*-This file for test fix new line output bug in 0.1a2-*-
+
+<script>
+/*This file for test fix new line output bug in 0.1a2*/
+require("commands")
+document.write("read file :\n\n"+readFile("txt/newLineOutputBugTest.txt"))
+</script>
+<script>
+print(readFile("txt/newLineOutputBugTest.txt"))
+</script>
+</pre>

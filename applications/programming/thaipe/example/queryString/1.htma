@@ -1,0 +1,5 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
+fromPage = <script>document.write(fromPage)</script>
+</br>
+</br>
+<a href=./2.htma?fromPage=1.htma>Go to 2.htma and pass "1.htma" string to fromPage variable</a>

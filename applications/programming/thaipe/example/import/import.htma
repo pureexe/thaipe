@@ -1,0 +1,25 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
+<pre><b>The first example will.-</b> 
+    1. Import cmd.js file by < script > tag.
+	2. Execute "ls .." linux's command by cmd function in cmd.js.
+	3. Write command's output in document.
+
+<script src="cmd.js"></script>
+<script>
+document.write("<b>-*- ls command output is ... -*-</b>\n\n"+cmd("ls .."))
+</script>
+
+************************************************************
+
+<b>The second example will.- </b>
+	1. Import zenity-file-selection-directory.js file  
+	by  getData function and eval function.  
+	2. Execute  zenity linux's command by selectDir function in 
+	zenity-file-selection-directory.js 
+	3. Write command's output in document.
+    
+<script>
+eval(readFile("zenity-file-selection-directory.js"))
+document.write("<b>-*- Your selected directory is ...-*-</b>\n\n"+selectDir("ls"))
+</script>
+</pre>

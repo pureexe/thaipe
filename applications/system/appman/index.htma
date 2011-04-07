@@ -1,0 +1,77 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>ThaiPE Application Manager</title>
+
+<link rel="stylesheet" href="data/jquery.treeview.css" />
+<link rel="stylesheet" href="data/red-treeview.css" />
+<link rel="stylesheet" href="data/demo/screen.css" />
+
+<script src="data/lib/jquery.js" type="text/javascript"></script>
+<script src="data/lib/jquery.cookie.js" type="text/javascript"></script>
+<script src="data/jquery.treeview.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+		$(function() {
+			$("#tree").treeview({
+				collapsed: true,
+				animated: "medium",
+				control:"#sidetreecontrol",
+				persist: "location"
+			});
+		})
+		
+	</script>
+
+</head>
+<body>
+
+<h1 id="banner">ThaiPE Application Manager</h1>
+<div id="main">
+<div id="sidetree">
+<div class="treeheader">&nbsp;</div>
+<div id="sidetreecontrol"><a href="?#">Collapse All</a> | <a href="?#">Expand All</a></div>
+
+<ul id="tree">
+<script>
+imports("os,libpy.mylib")
+var basename="../.."
+var ls=os.listdir(basename) 
+var basefolder=basename.split("/").pop()
+require("os.path")
+
+
+maketree("../..")
+function maketree(basename){
+     require("os")
+    var ls=os.listdir(basename) 
+    require("os.path")
+    for (var i=0;i<ls.length;i++) {
+        var path=basename+"/"+ls[i];
+        var basefolder=basename.split("/").pop()
+        if (os.path.isdir(path) && (libpy.mylib.listdir(basename)+"").search("index.htma")>-1) {
+			if (os.path.isfile(path+"/index.htma")) {
+				document.write('<li><a href="'+path+'/index.htma">'+ls[i]+'</a></li>')
+            }
+            else {
+				if ((libpy.mylib.listdir(path)+"").search("index.htma")>-1) {
+					document.write('<li><a href="#"><strong>'+ls[i]+'</strong></a><ul>')
+					maketree(path)
+					document.write('</ul></li>')
+				}
+			}
+            
+        }
+    }
+}
+</script>
+</ul>
+</div>
+
+</div>
+
+</body>
+
+</html>

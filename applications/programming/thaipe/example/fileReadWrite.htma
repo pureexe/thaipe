@@ -1,0 +1,19 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<script>
+fileName="txt/~tmp.txt"
+fn=fileName
+
+/*Write file*/
+f=new fileOpen(fn,"w")
+f.write("test read / write file")
+f.close()
+
+/*Read file by fopen's method*/
+f=new fileOpen(fn)
+document.write(f.read()+" : --> This string return from f.read()</br>")
+f.close()
+
+/*Read it by getData function*/
+document.write(getData(fn)+" : --> This string return from getData(fn)")
+</script>

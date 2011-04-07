@@ -1,0 +1,23 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<script src="../libjs/jquery.js"></script>
+<div align=center>
+<button onclick="insertBox()" >กดเปลี่ยนค่า</button>
+<textarea id=box rows=22 cols=75></textarea>
+<script>
+i=0;
+function insertBox() { 
+/************List Directory*************/
+	if (!i) {
+		require("glob")
+		$("#box")[0].value=glob.glob("/*")	
+		i=1
+	}
+/***************Read File***************/
+	else {
+		$("#box")[0].value=readFile("./firstPage.htma")
+		i=0
+	}
+}
+</script>
+</div>

@@ -1,0 +1,18 @@
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
+<title>Multiple add thaipe system tag to file</title>
+<pre><h1>Multiple add thaipe system tag to file</h1>
+
+please waite ...
+
+<script>
+imports("libpy.imptag,libpy.mylib,os.path,commands")
+path=commands.getoutput("zenity --file-selection  --directory")
+filesobj=libpy.mylib.listDir(path)
+for(i in filesobj) {
+    filesobj[i]="file://"+(filesobj[i]+"").replace(/\.\/|\/\//g,"")
+    libpy.imptag.insert_imptag(filesobj[i])
+}
+</script>
+
+finish !!!
+</pre>
