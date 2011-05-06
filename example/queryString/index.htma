@@ -1,5 +1,0 @@
-<script src='/opt/thaipe/jslib/main.js'></script>
-fromPage = <script>document.write(fromPage)</script>
-</br>
-</br>
-<a href=./1.htma?fromPage=index.htma >Go to 1.htma and pass "index.htma" string to fromPage variable</a>
