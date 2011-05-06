@@ -16,7 +16,42 @@ TO DO IN : 0.2alpha1
 TO DO IN : 0.1stable
 -Clear bug.
 -./applications/index.htma work fail.
--Bug in tes suit.
+-Bug in test suit.
+-When click on "open in new tab" older tab will run fail.
 
-TO DO IN : 0.1beta2
--Rename some file/derectory names to be clear name (pylib -> libpy, etc).
+Error like .-
+
+        ** Message: console message: file:///media/voradhamma/%E0%B9%80%E0%B8%82%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B9%82%E0%B8%9B%E0%B8%A3%E0%B9%81%E0%B8%81%E0%B8%A3%E0%B8%A1/thaipe/thaipe/applications/system/appman/index.htma @41: ReferenceError: Can't find variable: os
+
+        Error : Incorect or does't exist importing module/file name : 'os'.
+
+        Error > current file's built-in script or import script error :
+            message : Result of expression 'window[modName]' [undefined] is not a constructor.
+            line : 52
+            sourceId : -1340202048
+            expressionBeginOffset : 1584
+            expressionCaretOffset : 1603
+            expressionEndOffset : 1603
+            name : TypeError
+            toArray : function () {
+            items=this;
+          try {
+            //this converts object into an array in non-ie browsers
+                return Array.prototype.slice.call(items);
+            }
+            catch (ex) {
+                var i	= 0,
+                    len     = items.length,
+                    result	= Array(len);
+
+                while(i < len) {
+                    result[i] = items[i];
+                    i++;
+                }
+
+                return result;
+            }	
+        }
+            stepSlice : function (start, stop, step) {
+        return this;
+        }
