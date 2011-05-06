@@ -524,7 +524,7 @@ class WebBrowser(gtk.Window):
         self.show_all()
         
         try:
-            url = sys.argv[1]
+            url = os.path.join(os.getcwd(), sys.argv[1])
 
         except IndexError:
             url = "file://"+sys.path[0]+"/applications/system/appman/index.htma"

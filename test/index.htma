@@ -1,4 +1,4 @@
-<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/media/voradhamma/เขียนโปรแกรม/thaipe/thaipe/libjs/main.js'></script>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"><script id='_imptag' src='/Users/manatsawinhanmongkolchai/Documents/thaipe/libjs/main.js'></script>
 <!doctype html>
 <html>
 <head>
@@ -45,25 +45,25 @@ asyncTest("Submodule importing", function(){
 });
 asyncTest("Submodule importing with imports()", function(){
     setTimeout(function(){
-	equal(typeof os.execlp, "function", "Re-importing works");
-	equal(typeof os.path, "object", "Submodule do not get overwitten if re-importing supermodule");
-	equal(typeof re.M, "number", "Multiple imports is possible");
-	// also prepare for next test suite
-	require("os.path", "cStringIO", "re");
-	//imports("all from keyword");
-	start();
+		equal(typeof os.execlp, "function", "Re-importing works");
+		equal(typeof os.path, "object", "Submodule do not get overwitten if re-importing supermodule");
+		equal(typeof re.M, "number", "Multiple imports is possible");
+		// also prepare for next test suite
+		require("os.path", "cStringIO", "re");
+		imports("all from keyword");
+		start();
     }, 1);
     stop();
 });
-/*asyncTest("All from module import with imports()", function(){
+asyncTest("All from module import with imports()", function(){
     setTimeout(function(){
-	ok(iskeyword("for") === true, "imports('all from modulename'); works");
-	// also prepare for next test suite
-	require("os.path", "cStringIO", "re");
-	start();
+		ok(iskeyword("for") === true, "imports('all from modulename'); works");
+		// also prepare for next test suite
+		require("os.path", "cStringIO", "re");
+		start();
     }, 1);
     stop();
-});*/
+});
 // TODO: javascript import
 test("Module exection", function(){
     ok(os.path.isfile("../thaipe.py"), "Module method can be executed");
@@ -79,12 +79,6 @@ test("File IO", function(){
 
 });
 
-test("Module importing by importsx () ", function(){
-    importsx("os.path");
-    equal(typeof os.path.abspath, "function", "Module importing");
-    importsx("os.path");
-});
-
 test("Variable change when use method of os.path ", function(){
     
     imports("libpy.imptag,libpy.mylib,os.path")
@@ -92,19 +86,21 @@ test("Variable change when use method of os.path ", function(){
     var filels=(filesobj+"").replace(/\/\//g,"/").split(",")
     var last=""
     
-    for(i in filesobj) {
-        ok(last!=filesobj[i],  "Last file and current file must be not equal")
-        last=filesobj[i]
-    }
+	// FIXME: How this test could be breaked? I don't think it's possible
+    filesobj.forEach(function(val){
+        ok(last!=val,  "Each filelist must not be duplicated")
+        last=val
+    });
     
-    var last=""
+	// FIXME: What's the point of this?
+    /*var last=""
     for(i in filesobj) {
-        /***difference line***/
+        // difference line
         os.path.dirname(document.location.pathname) 
-        /***end of difference line***/
+		// end
         ok(last!=filesobj[i],  "Last file and current file must be not equal")
         last=filesobj[i]
-    }
+    }*/
 });
     </script>
 </head>

@@ -30,6 +30,14 @@ function  pyReturn (varName) { /*varName=varToReturn - STRING TYPE*/
 	return window[t];
 }
 
+function argsToList(arg){
+	out = []
+	for (var i = 0; i < arg.length; i++) {
+	   out.push(arg[i]);
+	}
+	return out;
+}
+
 function require(){
 	/*0.1b1 - add try catch*/
 	if(arguments.length < 1) return false;
@@ -105,31 +113,31 @@ function require(){
 	return true;
 }
 
-/*Imports function*/
-_dummy=["imports(mods){\n\targuments=mods.split(',');",];
-_dummyImports=(""+require).replace("require() {",_dummy[0]);
-eval(_dummyImports);
-
-function importsx(){
+function imports(){
     argsToList(arguments).forEach(function(x){
-	x = x.split(/[ ]*,[ ]*/);
-	impAll = [];
-	x.forEach(function(val,id){
-	    if(val.match(/^(all from )/)) val = val.match(/^all from (.*)/)[1];
-	    x[id] = val;
-	    impAll.push(val);
-	});
-	require.apply(this, x);
-	impAll.forEach(function(i){
-	    curPoint = window;
-	    i.split(".").forEach(function(y){
-		curPoint = window[y];
-	    });
-	    // now we got it, smash and grab
-	    curPoint.__all__.forEach(function(nm){
-		window[nm] = curPoint[nm];
-	    });
-	});
+		x = x.split(/[ ]*,[ ]*/);
+		impAll = [];
+		x.forEach(function(val,id){
+		    if(val.match(/^(all from )/)){
+				val = val.match(/^all from (.*)/)[1];
+		    	x[id] = val;
+		    	impAll.push(val);
+			}
+		});
+		require.apply(this, x);
+		impAll.forEach(function(i){
+		    curPoint = window;
+		    i.split(".").forEach(function(y){
+				curPoint = window[y];
+		    });
+		    // now we got it, smash and grab
+		    curPoint.__all__.forEach(function(nm){
+				// FIXME: Reduce memory consumption by remove this function
+				window[nm] = (function(i,nm,curPoint){
+					return function(){return eval(i+"."+nm).apply(curPoint, arguments);}
+				})(i,nm,curPoint)
+		    });
+		});
     });
     return true;
 }
@@ -155,7 +163,9 @@ function print (t) {
 	py('print "'+t.addslashes()+'"');
 }
 
-var println=function (line) {document.write(line);};
+function println(line){
+	document.write(line);
+}
 
 String.prototype.strip = function () {
     return this.replace(/^\s*/, "").replace(/\s*$/, "");
@@ -204,6 +214,7 @@ Array.prototype.find = function(searchStr) {
   }
   return returnArray;
 }
+
 
 function _type(thing){
     if(thing===null)return "null"; /*special case*/
